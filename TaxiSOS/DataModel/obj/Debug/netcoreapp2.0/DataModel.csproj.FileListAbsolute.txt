@@ -1,0 +1,9 @@
+D:\GitHub\Piligrimmy\TaxiSOS\DataModel\bin\Debug\netcoreapp2.0\DataModel.deps.json
+D:\GitHub\Piligrimmy\TaxiSOS\DataModel\bin\Debug\netcoreapp2.0\DataModel.dll
+D:\GitHub\Piligrimmy\TaxiSOS\DataModel\bin\Debug\netcoreapp2.0\DataModel.pdb
+D:\GitHub\Piligrimmy\TaxiSOS\DataModel\obj\Debug\netcoreapp2.0\DataModel.csprojResolveAssemblyReference.cache
+D:\GitHub\Piligrimmy\TaxiSOS\DataModel\obj\Debug\netcoreapp2.0\DataModel.csproj.CoreCompileInputs.cache
+D:\GitHub\Piligrimmy\TaxiSOS\DataModel\obj\Debug\netcoreapp2.0\DataModel.AssemblyInfoInputs.cache
+D:\GitHub\Piligrimmy\TaxiSOS\DataModel\obj\Debug\netcoreapp2.0\DataModel.AssemblyInfo.cs
+D:\GitHub\Piligrimmy\TaxiSOS\DataModel\obj\Debug\netcoreapp2.0\DataModel.dll
+D:\GitHub\Piligrimmy\TaxiSOS\DataModel\obj\Debug\netcoreapp2.0\DataModel.pdb

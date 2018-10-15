@@ -1,0 +1,16 @@
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\bin\Debug\netcoreapp2.0\TaxiSOS.deps.json
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\bin\Debug\netcoreapp2.0\TaxiSOS.runtimeconfig.json
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\bin\Debug\netcoreapp2.0\TaxiSOS.runtimeconfig.dev.json
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\bin\Debug\netcoreapp2.0\TaxiSOS.dll
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\bin\Debug\netcoreapp2.0\TaxiSOS.pdb
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\obj\Debug\netcoreapp2.0\TaxiSOS.csprojResolveAssemblyReference.cache
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\obj\Debug\netcoreapp2.0\TaxiSOS.csproj.CoreCompileInputs.cache
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\obj\Debug\netcoreapp2.0\TaxiSOS.AssemblyInfoInputs.cache
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\obj\Debug\netcoreapp2.0\TaxiSOS.AssemblyInfo.cs
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\obj\Debug\netcoreapp2.0\TaxiSOS.dll
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\obj\Debug\netcoreapp2.0\TaxiSOS.pdb
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\bin\Debug\netcoreapp2.0\DataModel.dll
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\bin\Debug\netcoreapp2.0\MSSQLRepository.dll
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\bin\Debug\netcoreapp2.0\DataModel.pdb
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\bin\Debug\netcoreapp2.0\MSSQLRepository.pdb
+D:\GitHub\Piligrimmy\TaxiSOS\TaxiSOS\obj\Debug\netcoreapp2.0\TaxiSOS.csproj.CopyComplete

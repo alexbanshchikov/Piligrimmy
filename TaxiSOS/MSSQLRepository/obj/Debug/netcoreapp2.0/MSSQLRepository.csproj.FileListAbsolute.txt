@@ -1,0 +1,12 @@
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\bin\Debug\netcoreapp2.0\DataModel.dll
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\obj\Debug\netcoreapp2.0\MSSQLRepository.csprojResolveAssemblyReference.cache
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\obj\Debug\netcoreapp2.0\MSSQLRepository.csproj.CoreCompileInputs.cache
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\obj\Debug\netcoreapp2.0\MSSQLRepository.AssemblyInfoInputs.cache
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\obj\Debug\netcoreapp2.0\MSSQLRepository.AssemblyInfo.cs
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\bin\Debug\netcoreapp2.0\MSSQLRepository.deps.json
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\bin\Debug\netcoreapp2.0\MSSQLRepository.dll
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\bin\Debug\netcoreapp2.0\MSSQLRepository.pdb
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\bin\Debug\netcoreapp2.0\DataModel.pdb
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\obj\Debug\netcoreapp2.0\MSSQLRepository.csproj.CopyComplete
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\obj\Debug\netcoreapp2.0\MSSQLRepository.dll
+D:\GitHub\Piligrimmy\TaxiSOS\MSSQLRepository\obj\Debug\netcoreapp2.0\MSSQLRepository.pdb
