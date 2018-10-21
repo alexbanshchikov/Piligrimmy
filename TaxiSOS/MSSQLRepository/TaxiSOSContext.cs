@@ -13,7 +13,7 @@ namespace MSSQLRepository
         public virtual DbSet<Drivers> Drivers { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<PersonalAccount> PersonalAccount { get; set; }
-
+        /*DELETE ME*/
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
