@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DataModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using MSSQLRepository;
+using Unity;
 
 namespace TaxiSOS
 {
@@ -24,6 +21,12 @@ namespace TaxiSOS
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+        }
+
+        public void ConfigureContainer(IUnityContainer container)
+        {
+            // Could be used to register more types
+            container.RegisterType<IRepository<Clients>, MSSQLRepo<Clients>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
