@@ -9,10 +9,10 @@ namespace MSSQLRepository
 {
     public class MSSQLRepo<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        DbContext _context;
+        TaxiSOSContext _context;
         DbSet<TEntity> _dbSet;
 
-        public MSSQLRepo(DbContext context)
+        public MSSQLRepo(TaxiSOSContext context)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();
