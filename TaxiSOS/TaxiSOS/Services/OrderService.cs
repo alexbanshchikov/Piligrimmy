@@ -7,5 +7,10 @@ namespace TaxiSOS.Services
 {
     public class OrderService
     {
+        public int Calculate(string From, string To)
+        {
+
+            return 0;
+        }
     }
 }
