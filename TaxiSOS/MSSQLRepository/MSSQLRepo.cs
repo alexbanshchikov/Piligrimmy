@@ -27,7 +27,7 @@ namespace MSSQLRepository
         {
             return _dbSet.AsNoTracking().Where(predicate).ToList();
         }
-        public TEntity FindById(int id)
+        public TEntity FindById(Guid id)
         {
             return _dbSet.Find(id);
         }
