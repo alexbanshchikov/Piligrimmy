@@ -24,7 +24,7 @@ namespace TaxiSOS.Controllers
             return _repo.Get();
         }
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public Clients Get(Guid id)
         {
             return _repo.FindById(id);
