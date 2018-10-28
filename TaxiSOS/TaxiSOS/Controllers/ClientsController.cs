@@ -17,36 +17,37 @@ namespace TaxiSOS.Controllers
         {
             _repo = repo;
         }
-        // GET: api/Clients
+
         [HttpGet]
         public IEnumerable<Clients> Get()
         {
             return _repo.Get();
         }
 
-        // GET: api/Clients/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public Clients Get(Guid id)
         {
-            return "value";
+            return _repo.FindById(id);
         }
         
-        // POST: api/Clients
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Create([FromBody]Clients value)
         {
+            _repo.Create(value);
         }
         
-        // PUT: api/Clients/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Update(Guid id, [FromBody]Clients client)
         {
+            if (client.IdClient == id)
+                _repo.Update(client);
         }
         
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
+            Clients c = _repo.FindById(id);
+            _repo.Remove(c);
         }
     }
 }
