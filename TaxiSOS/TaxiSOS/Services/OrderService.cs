@@ -4,6 +4,7 @@ using System.Net;
 using System.Globalization;
 using DataModel;
 using Unity;
+using System;
 
 namespace TaxiSOS.Services
 {
@@ -46,12 +47,12 @@ namespace TaxiSOS.Services
                     .ToString(CultureInfo.GetCultureInfo("en-US"));
         }
 
-        public Drivers FingDriver(IRepository<Drivers> repoDriver)
+        public Guid FingDriver(IRepository<Drivers> repoDriver)
         {
             _repo = repoDriver;
              var driver = _repo.Get().Where(dr => dr.Status==0).First();
             driver.Status = 1;
-            return driver;
+            return driver.IdDriver;
         }
     }
 }
