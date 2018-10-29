@@ -17,7 +17,7 @@ namespace MSSQLRepository
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer(@"Server=LENOVO;Database=TaxiSOS;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(@"Server=LAPTOP-VEV0U443;Database=TaxiSOS;Trusted_Connection=True;");
             }
         }
 
@@ -148,7 +148,7 @@ namespace MSSQLRepository
                     .WithOne(p => p.Drivers)
                     .HasForeignKey<Drivers>(d => d.IdDriver)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Drivers_Personal_Account");
+                    .HasConstraintName("FK_Personal_Account_Drivers");
             });
 
             modelBuilder.Entity<Orders>(entity =>
