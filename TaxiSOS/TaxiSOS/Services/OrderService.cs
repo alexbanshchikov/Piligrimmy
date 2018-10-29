@@ -49,8 +49,8 @@ namespace TaxiSOS.Services
                         .OfType<JProperty>()
                         .Where(p => p.Name == "total_distance")
                         .Select(p => p.Value).First();
-
-            return distance.Value<int>();
+            int cost = (int)(distance.Value<int>() * 0.01) + 40;
+            return cost;
         }
     }
 }
