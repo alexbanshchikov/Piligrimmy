@@ -9,48 +9,18 @@ namespace TaxiSOS.Services
     {     
         public int Calculate(string From, string To)
         {
-            string responseFrom = new WebClient().DownloadString("http://search.maps.sputnik.ru/search?q=" + From);
-            var rootFrom = JObject.Parse(responseFrom);
-            var latFrom =
-                    rootFrom.DescendantsAndSelf()
-                        .OfType<JProperty>()
-                        .Where(p => p.Name == "lat")
-                        .Select(p => p.Value).First();
-
-            var lonFrom =
-                    rootFrom.DescendantsAndSelf()
-                        .OfType<JProperty>()
-                        .Where(p => p.Name == "lon")
-                        .Select(p => p.Value).First();
-
-            string responseTo = new WebClient().DownloadString("http://search.maps.sputnik.ru/search?q=" + To);
-            var rootTo = JObject.Parse(responseTo);
-            var latTo =
-                    rootTo.DescendantsAndSelf()
-                        .OfType<JProperty>()
-                        .Where(p => p.Name == "lat")
-                        .Select(p => p.Value).First();
-
-            var lonTo =
-                    rootTo.DescendantsAndSelf()
-                        .OfType<JProperty>()
-                        .Where(p => p.Name == "lon")
-                        .Select(p => p.Value).First();
+            string _latFrom, _lonFrom, _latTo, _lonTo;
+            Points(From, out _latFrom, out _lonFrom);            Points(To, out _latTo, out _lonTo);
 
             string route = new WebClient().DownloadString("http://routes.maps.sputnik.ru/osrm/router/viaroute?loc="
-                +latFrom.Value<float>().ToString(CultureInfo.GetCultureInfo("en-US")) +","
-                +lonFrom.Value<float>().ToString(CultureInfo.GetCultureInfo("en-US")) +"&loc="
-                +latTo.Value<float>().ToString(CultureInfo.GetCultureInfo("en-US")) +","
-                +lonTo.Value<float>().ToString(CultureInfo.GetCultureInfo("en-US")));
-            
-            var root = JObject.Parse(route);
-            var distance =
+                + _latFrom + "," + _lonFrom + "&loc=" + _latTo + "," + _lonTo);
+
+            var root = JObject.Parse(route);            var distance =
                     root.DescendantsAndSelf()
                         .OfType<JProperty>()
                         .Where(p => p.Name == "total_distance")
-                        .Select(p => p.Value).First();
-
-            return distance.Value<int>();
+                        .Select(p => p.Value).First().Value<int>();            int cost = (int)(distance * 0.01) + 40;
+            return cost;
         }
 
         public void Points(string point, out string lat, out string lon)
@@ -73,22 +43,4 @@ namespace TaxiSOS.Services
         }
     }
 }
-
-        {
-            string _latFrom, _lonFrom, _latTo, _lonTo;
-
-            Points(From, out _latFrom, out _lonFrom);
-            Points(To, out _latTo, out _lonTo);            
-
-            string route = new WebClient().DownloadString("http://routes.maps.sputnik.ru/osrm/router/viaroute?loc="
-                + _latFrom + "," + _lonFrom + "&loc=" + _latTo + "," + _lonTo);
-            
-            var root = JObject.Parse(route);
-            var distance =
-                    root.DescendantsAndSelf()
-                        .OfType<JProperty>()
-                        .Where(p => p.Name == "total_distance")
-                        .Select(p => p.Value).First().Value<int>();
-
-            return cost;
-            int cost = (int)(distance.Value<int>() * 0.01) + 40;
+            
