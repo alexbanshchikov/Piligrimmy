@@ -2,11 +2,18 @@
 using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Globalization;
+using DataModel;
+using Unity;
 
 namespace TaxiSOS.Services
 {
     public class OrderService
+<<<<<<< HEAD
     {     
+=======
+    {
+        IRepository<Drivers> _repo;
+>>>>>>> orderServiceVersion2
         public int Calculate(string From, string To)
         {
             string _latFrom, _lonFrom, _latTo, _lonTo;
@@ -22,6 +29,7 @@ namespace TaxiSOS.Services
                         .Select(p => p.Value).First().Value<int>();            int cost = (int)(distance * 0.01) + 40;
             return cost;
         }
+<<<<<<< HEAD
 
         public void Points(string point, out string lat, out string lon)
         {
@@ -40,6 +48,14 @@ namespace TaxiSOS.Services
                     .Select(p => p.Value).First()
                     .Value<float>()
                     .ToString(CultureInfo.GetCultureInfo("en-US"));
+=======
+        public Drivers FingDriver(IRepository<Drivers> repoDriver)
+        {
+            //IRepository<Drivers> _repo;
+            _repo = repoDriver;
+             var driver = _repo.Get().Where(dr => dr.Status==0).First();
+            return driver;
+>>>>>>> orderServiceVersion2
         }
     }
 }
