@@ -27,6 +27,9 @@ namespace TaxiSOS
         {
             // Could be used to register more types
             container.RegisterType<IRepository<Clients>, MSSQLRepo<Clients>>();
+            container.RegisterType<IRepository<Drivers>, MSSQLRepo<Drivers>>();
+            container.RegisterType<IRepository<Orders>, MSSQLRepo<Orders>>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
