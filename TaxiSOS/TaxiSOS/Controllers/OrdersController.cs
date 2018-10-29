@@ -15,50 +15,52 @@ namespace TaxiSOS.Controllers
     {
         OrderService os = new OrderService();
         private readonly IRepository<Drivers> _repoDriver = null;
-        private readonly IRepository<Drivers> _repoOrder = null;
-        public OrdersController(IRepository<Drivers> repoDriver , IRepository<Drivers> repoOrder)
+        private readonly IRepository<Orders> _repoOrder = null;
+        public OrdersController(IRepository<Drivers> repoDriver, IRepository<Orders> repoOrder)
         {
             _repoDriver = repoDriver;
             _repoOrder = repoOrder;
 
         }
-        // GET: api/Orders
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Orders> Get()
         {
-            var d = os.FingDriver(_repoDriver);
-            return new string[] { "value1", "value2" };
+            return _repoOrder.Get();
         }
 
-        // GET: api/Orders/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Orders Get(Guid id)
         {
-            return "value";
+            return _repoOrder.FindById(id);
         }
 
+        [HttpPost]
+        public void Create([FromBody]Orders value)
+        {
+            var driver = os.FingDriver(_repoDriver);
+            _repoOrder.Create(value);
+        }
+
+        [HttpPut("{id}")]
+        public void Update(Guid id, [FromBody]Orders driver)
+        {
+            if (driver.IdDriver == id)
+                _repoOrder.Update(driver);
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(Guid id)
+        {
+            Orders c = _repoOrder.FindById(id);
+            Drivers driver = _repoDriver.FindById(c.IdDriver);
+            driver.Status = 0;
+            _repoOrder.Remove(c);
+        }
         [HttpGet("{calc}")]
         public int Calculate(string From, string To)
         {
             return os.Calculate(From, To);
         }
 
-        // POST: api/Orders
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/Orders/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

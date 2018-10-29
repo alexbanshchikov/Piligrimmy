@@ -50,6 +50,7 @@ namespace TaxiSOS.Services
         {
             _repo = repoDriver;
              var driver = _repo.Get().Where(dr => dr.Status==0).First();
+            driver.Status = 1;
             return driver;
         }
     }
