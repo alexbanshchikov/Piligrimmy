@@ -20,8 +20,8 @@ namespace TaxiSOS.Controllers
         {
             _repoDriver = repoDriver;
             _repoOrder = repoOrder;
-
         }
+
         [HttpGet]
         public IEnumerable<Orders> Get()
         {
@@ -35,17 +35,20 @@ namespace TaxiSOS.Controllers
         }
 
         [HttpPost]
-        public void Create([FromBody]Orders value)
+        public void Create([FromBody]Orders order)
         {
-            var driver = os.FingDriver(_repoDriver);
-            _repoOrder.Create(value);
+            var driver = os.FindDriver(_repoDriver);
+            order.IdDriver = driver;
+            order.OrderTime = DateTime.Now;
+            order.Cost = os.Calculate(order.ArrivalPoint, order.DestinationPoint);
+            _repoOrder.Create(order);
         }
 
         [HttpPut("{id}")]
-        public void Update(Guid id, [FromBody]Orders driver)
+        public void Update(Guid id, [FromBody]Orders order)
         {
-            if (driver.IdDriver == id)
-                _repoOrder.Update(driver);
+            if (order.IdDriver == id)
+                _repoOrder.Update(order);
         }
 
         [HttpDelete("{id}")]
@@ -56,6 +59,7 @@ namespace TaxiSOS.Controllers
             driver.Status = 0;
             _repoOrder.Remove(c);
         }
+
         [HttpGet("{calc}")]
         public int Calculate(string From, string To)
         {
