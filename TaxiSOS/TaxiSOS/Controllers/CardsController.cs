@@ -46,7 +46,7 @@ namespace TaxiSOS.Controllers
         [HttpDelete("{id}")]
         public void Delete(string number)
         {
-            var cards = _repo.Get().Where(dr => dr.CardNumber == number).First(); 
+            var cards = _repo.Get().Where(dr => dr.CardNumber == number).First();
             _repo.Remove(cards);
         }
     }
