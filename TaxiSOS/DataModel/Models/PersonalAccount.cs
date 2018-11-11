@@ -9,6 +9,6 @@ namespace DataModel
         public string AccountNumber { get; set; }
         public int Balance { get; set; }
 
-        public Drivers Drivers { get; set; }
+        public Drivers IdDriverNavigation { get; set; }
     }
 }
