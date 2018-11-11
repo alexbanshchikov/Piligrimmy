@@ -12,6 +12,7 @@ namespace DataModel
         public string DestinationPoint { get; set; }
         public DateTime OrderTime { get; set; }
         public int Cost { get; set; }
+        public bool PayType { get; set; }
 
         public Clients IdClientNavigation { get; set; }
         public Drivers IdDriverNavigation { get; set; }

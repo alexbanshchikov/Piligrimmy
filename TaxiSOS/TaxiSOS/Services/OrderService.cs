@@ -47,7 +47,7 @@ namespace TaxiSOS.Services
                     .ToString(CultureInfo.GetCultureInfo("en-US"));
         }
 
-        public Guid FingDriver(IRepository<Drivers> repoDriver)
+        public Guid FindDriver(IRepository<Drivers> repoDriver)
         {
             _repo = repoDriver;
              var driver = _repo.Get().Where(dr => dr.Status==0).First();
