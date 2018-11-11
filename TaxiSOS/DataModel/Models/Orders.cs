@@ -7,12 +7,13 @@ namespace DataModel
     {
         public Guid IdOrder { get; set; }
         public Guid IdClient { get; set; }
-        public Guid IdDriver { get; set; }
+        public Guid? IdDriver { get; set; }
         public string ArrivalPoint { get; set; }
         public string DestinationPoint { get; set; }
         public DateTime OrderTime { get; set; }
         public int Cost { get; set; }
         public bool PayType { get; set; }
+        public int? Status { get; set; }
 
         public Clients IdClientNavigation { get; set; }
         public Drivers IdDriverNavigation { get; set; }

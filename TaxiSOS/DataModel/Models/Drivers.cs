@@ -9,6 +9,7 @@ namespace DataModel
         {
             Cars = new HashSet<Cars>();
             Orders = new HashSet<Orders>();
+            PersonalAccount = new HashSet<PersonalAccount>();
         }
 
         public Guid IdDriver { get; set; }
@@ -18,8 +19,8 @@ namespace DataModel
         public bool Blocked { get; set; }
         public int Status { get; set; }
 
-        public PersonalAccount IdDriverNavigation { get; set; }
         public ICollection<Cars> Cars { get; set; }
         public ICollection<Orders> Orders { get; set; }
+        public ICollection<PersonalAccount> PersonalAccount { get; set; }
     }
 }

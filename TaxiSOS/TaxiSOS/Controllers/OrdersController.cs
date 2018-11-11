@@ -55,7 +55,7 @@ namespace TaxiSOS.Controllers
         public void Delete(Guid id)
         {
             Orders c = _repoOrder.FindById(id);
-            Drivers driver = _repoDriver.FindById(c.IdDriver);
+            Drivers driver = _repoDriver.FindById((Guid)c.IdDriver);
             driver.Status = 0;
             _repoOrder.Remove(c);
         }
