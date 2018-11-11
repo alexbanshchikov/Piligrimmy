@@ -49,5 +49,7 @@ namespace TaxiSOS.Controllers
             Clients c = _repo.FindById(id);
             _repo.Remove(c);
         }
+
+       
     }
 }

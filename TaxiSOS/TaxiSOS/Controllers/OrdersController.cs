@@ -60,10 +60,64 @@ namespace TaxiSOS.Controllers
             _repoOrder.Remove(c);
         }
 
-        [HttpGet("{calc}")]
+        [HttpGet("calc")]
         public int Calculate(string From, string To)
         {
             return os.Calculate(From, To);
+        }
+
+        [HttpGet("CheckDenyDriver")]
+        public string CheckRoadDriver(Guid id)
+        {
+            Orders order = _repoOrder.FindById(id);
+            if (order is null)
+            {
+                return "Водитель отказался от поездки";
+            } else
+            {
+                if (order.Status == 3)
+                {
+                    return "Водитель ожидает";
+                }
+                else {
+                    return "Водитель в пути";
+                }
+            }
+        }
+
+        [HttpGet("CheckDenyClient")]
+        public string CheckDenyClient(Guid id)
+        {
+            Orders order = _repoOrder.FindById(id);
+            if (order is null)
+            {
+                return "Клиент отказался от поездки";
+            }
+            else return null ;
+
+        }
+
+        [HttpGet("CheckDriver")]
+        public Orders CheckDriver(Guid id)
+        {
+            var order = _repoOrder.Get().Where(dr => dr.IdDriver == id).First();
+            if (order is null)
+            {
+                return null;
+            } 
+            else return order;
+        }
+
+
+        [HttpGet("CheckDriver")]
+        public Drivers CheckClient(Guid id)
+        {
+            Orders order = _repoOrder.FindById(id);
+            if (order.Status ==2)
+            {
+                return _repoDriver.FindById(order.IdDriver);
+            }
+            else return null;
         }
 
     }
