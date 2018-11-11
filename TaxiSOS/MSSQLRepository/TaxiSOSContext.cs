@@ -17,7 +17,7 @@ namespace MSSQLRepository
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer(@"Server=LAPTOP-VEV0U443;Database=TaxiSOS;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=LENOVO;Database=TaxiSOS;Trusted_Connection=True;");
             }
         }
 
@@ -143,12 +143,6 @@ namespace MSSQLRepository
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.IdDriverNavigation)
-                    .WithOne(p => p.Drivers)
-                    .HasForeignKey<Drivers>(d => d.IdDriver)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Personal_Account_Drivers");
             });
 
             modelBuilder.Entity<Orders>(entity =>
@@ -188,25 +182,28 @@ namespace MSSQLRepository
                 entity.HasOne(d => d.IdDriverNavigation)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.IdDriver)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Drivers");
             });
 
             modelBuilder.Entity<PersonalAccount>(entity =>
             {
-                entity.HasKey(e => e.IdDriver);
+                entity.HasKey(e => e.AccountNumber);
 
                 entity.ToTable("Personal_Account");
 
-                entity.Property(e => e.IdDriver)
-                    .HasColumnName("Id_Driver")
-                    .ValueGeneratedNever();
-
                 entity.Property(e => e.AccountNumber)
-                    .IsRequired()
                     .HasColumnName("Account_Number")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.IdDriver).HasColumnName("Id_Driver");
+
+                entity.HasOne(d => d.IdDriverNavigation)
+                    .WithMany(p => p.PersonalAccount)
+                    .HasForeignKey(d => d.IdDriver)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Personal_Account_Drivers");
             });
         }
     }
