@@ -115,7 +115,7 @@ namespace TaxiSOS.Controllers
             Orders order = _repoOrder.FindById(id);
             if (order.Status ==2)
             {
-                return _repoDriver.FindById(order.IdDriver);
+                return _repoDriver.FindById((Guid)order.IdDriver);
             }
             else return null;
         }
