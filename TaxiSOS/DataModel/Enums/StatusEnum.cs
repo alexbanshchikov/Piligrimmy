@@ -6,13 +6,14 @@ namespace DataModel.Enums
 {
     public class StatusEnum
     {
-        enum Status
+        public enum Status
         {
-            WithoutDriver = 1,
-            DriverOnWay,
-            AwaitingClient,
-            ClientOnWay,
-            Success
+            WithoutDriver      = 1,
+            DriverWithoutAgree = 2,
+            DriverOnWay        = 3,
+            AwaitingClient     = 4,
+            ClientOnWay        = 5,
+            Success            = 6
         }
     }
 }
