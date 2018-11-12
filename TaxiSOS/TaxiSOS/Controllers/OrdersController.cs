@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaxiSOS.Services;
 using DataModel;
+using static DataModel.Enums.StatusEnum;
 
 namespace TaxiSOS.Controllers
 {
@@ -37,10 +38,9 @@ namespace TaxiSOS.Controllers
         [HttpPost]
         public void Create([FromBody]Orders order)
         {
-            var driver = os.FindDriver(_repoDriver);
-            order.IdDriver = driver;
             order.OrderTime = DateTime.Now;
-            order.Cost = os.Calculate(order.ArrivalPoint, order.DestinationPoint);
+            order.Cost = Calculate(order.ArrivalPoint, order.DestinationPoint);
+            order.Status = (int)Status.WithoutDriver;
             _repoOrder.Create(order);
         }
 
@@ -67,26 +67,28 @@ namespace TaxiSOS.Controllers
         }
 
         [HttpGet("CheckDenyDriver")]
-        public string CheckRoadDriver(Guid id)
+        public string CheckRoadDriver(Guid id) //TODO 
         {
             Orders order = _repoOrder.FindById(id);
             if (order is null)
             {
                 return "Водитель отказался от поездки";
-            } else
+            }
+            else
             {
-                if (order.Status == 3)
+                if (order.Status == (int)Status.AwaitingClient)
                 {
                     return "Водитель ожидает";
                 }
-                else {
+                else
+                {
                     return "Водитель в пути";
                 }
             }
         }
 
         [HttpGet("CheckDenyClient")]
-        public string CheckDenyClient(Guid id)
+        public string CheckDenyClient(Guid id)  //TODO
         {
             Orders order = _repoOrder.FindById(id);
             if (order is null)
@@ -110,10 +112,10 @@ namespace TaxiSOS.Controllers
 
 
         [HttpGet("CheckDriver")]
-        public Drivers CheckClient(Guid id)
+        public Drivers CheckClient(Guid id) //TODO
         {
             Orders order = _repoOrder.FindById(id);
-            if (order.Status ==2)
+            if (order.Status == 2)
             {
                 return _repoDriver.FindById((Guid)order.IdDriver);
             }
