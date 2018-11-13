@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Globalization;
 using DataModel;
-using Unity;
 using System;
 
 namespace TaxiSOS.Services
@@ -11,6 +10,7 @@ namespace TaxiSOS.Services
     public class OrderService
     {     
         IRepository<Drivers> _repo;
+        CultureInfo cultureInfo = new CultureInfo("en-US");
 
         public int Calculate(string From, string To)
         {
@@ -37,14 +37,14 @@ namespace TaxiSOS.Services
                     .Where(p => p.Name == "lat")
                     .Select(p => p.Value).First()
                     .Value<float>()
-                    .ToString(CultureInfo.GetCultureInfo("en-US"));
+                    .ToString(cultureInfo);
 
             lon = root.DescendantsAndSelf()
                     .OfType<JProperty>()
                     .Where(p => p.Name == "lon")
                     .Select(p => p.Value).First()
                     .Value<float>()
-                    .ToString(CultureInfo.GetCultureInfo("en-US"));
+                    .ToString(cultureInfo);
         }
 
         public Guid FindDriver(IRepository<Drivers> repoDriver)
