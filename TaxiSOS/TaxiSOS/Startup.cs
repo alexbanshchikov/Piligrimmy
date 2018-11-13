@@ -30,6 +30,7 @@ namespace TaxiSOS
             container.RegisterType<IRepository<Drivers>, MSSQLRepo<Drivers>>();
             container.RegisterType<IRepository<Orders>, MSSQLRepo<Orders>>();
             container.RegisterType<IRepository<Cards>, MSSQLRepo<Cards>>();
+            container.RegisterType<IRepository<PersonalAccount>, MSSQLRepo<PersonalAccount>>();
 
         }
 
