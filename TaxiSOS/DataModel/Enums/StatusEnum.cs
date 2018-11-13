@@ -8,12 +8,11 @@ namespace DataModel.Enums
     {
         public enum Status
         {
-            WithoutDriver      = 1,
-            DriverWithoutAgree = 2,
-            DriverOnWay        = 3,
-            AwaitingClient     = 4,
-            ClientOnWay        = 5,
-            Success            = 6
+            DriverWithoutAgree = 1,
+            DriverOnWay        = 2,
+            AwaitingClient     = 3,
+            ClientOnWay        = 4,
+            Success            = 5
         }
     }
 }
