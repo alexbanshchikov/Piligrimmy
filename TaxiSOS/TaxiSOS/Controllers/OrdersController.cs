@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaxiSOS.Services;
 using DataModel;
@@ -17,10 +15,12 @@ namespace TaxiSOS.Controllers
         OrderService os = new OrderService();
         private readonly IRepository<Drivers> _repoDriver = null;
         private readonly IRepository<Orders> _repoOrder = null;
-        public OrdersController(IRepository<Drivers> repoDriver, IRepository<Orders> repoOrder)
+        private readonly IRepository<PersonalAccount> _repoPA = null;
+        public OrdersController(IRepository<Drivers> repoDriver, IRepository<Orders> repoOrder, IRepository<PersonalAccount> repoPA)
         {
             _repoDriver = repoDriver;
             _repoOrder = repoOrder;
+            _repoPA = repoPA;
         }
 
         [HttpGet]
@@ -40,7 +40,8 @@ namespace TaxiSOS.Controllers
         {
             order.OrderTime = DateTime.Now;
             order.Cost = Calculate(order.ArrivalPoint, order.DestinationPoint);
-            order.Status = (int)Status.WithoutDriver;
+            order.IdDriver = os.FindDriver(_repoDriver);
+            order.Status = (int)Status.DriverWithoutAgree;
             _repoOrder.Create(order);
         }
 
@@ -60,16 +61,27 @@ namespace TaxiSOS.Controllers
             _repoOrder.Remove(c);
         }
 
+        /// <summary>
+        /// Расчет стоимости поездки
+        /// </summary>
+        /// <param Адрес начального пункта="id"></param>
+        /// <param Адрес конечного пункта="id"></param>
+        /// <returns>Стоимость поездки</returns>
         [HttpGet("calc")]
         public int Calculate(string From, string To)
         {
             return os.Calculate(From, To);
         }
 
+        /// <summary>
+        /// Действие клиента: Проверяет отказ водителя от поездки или его статус
+        /// </summary>
+        /// <param Id заказа="idOrder"></param>
+        /// <returns>Актуальный заказ</returns>
         [HttpGet("CheckDenyDriver")]
-        public string CheckRoadDriver(Guid id) //TODO 
+        public string CheckDenyDriver(Guid idOrder)
         {
-            Orders order = _repoOrder.FindById(id);
+            Orders order = _repoOrder.FindById(idOrder);
             if (order is null)
             {
                 return "Водитель отказался от поездки";
@@ -87,40 +99,78 @@ namespace TaxiSOS.Controllers
             }
         }
 
+        /// <summary>
+        /// Действие водителя: Следит, чтобы клиент не отказался от поездки
+        /// </summary>
+        /// <param Id заказа="idOrder"></param>
+        /// <returns>Состояние клиента</returns>
         [HttpGet("CheckDenyClient")]
-        public string CheckDenyClient(Guid id)  //TODO
+        public string CheckDenyClient(Guid idOrder)
         {
-            Orders order = _repoOrder.FindById(id);
+            Orders order = _repoOrder.FindById(idOrder);
             if (order is null)
             {
                 return "Клиент отказался от поездки";
             }
             else return null ;
-
         }
 
+        /// <summary>
+        /// Действие клиента: Ожидает назначения водителя 
+        /// </summary>
+        /// <param Id заказа="idOrder"></param>
+        /// <returns>Назначенный водитель</returns>
         [HttpGet("CheckDriver")]
-        public Orders CheckDriver(Guid id)
+        public Drivers CheckDriver(Guid idOrder)
         {
-            var order = _repoOrder.Get().Where(dr => dr.IdDriver == id).First();
-            if (order is null)
+            var order = _repoOrder.FindById(idOrder);         
+            if (order.Status == (int)Status.DriverWithoutAgree)
             {
                 return null;
             } 
-            else return order;
+            else
+                return _repoDriver.FindById((Guid)order.IdDriver);
         }
 
-
-        [HttpGet("CheckDriver")]
-        public Drivers CheckClient(Guid id) //TODO
+        /// <summary>
+        /// Действие водителя: Проверяет, назначен ли он на заказ
+        /// </summary>
+        /// <param Id водителя="idDriver"></param>
+        /// <returns>Актуальный заказ</returns>
+        [HttpGet("CheckClient")]
+        public Orders CheckClient(Guid idDriver)
         {
-            Orders order = _repoOrder.FindById(id);
-            if (order.Status == 2)
+            var order = _repoOrder.Get().Where(dr => dr.IdDriver == idDriver && dr.Status == (int)Status.DriverWithoutAgree).First();
+            if (order != null)
             {
-                return _repoDriver.FindById((Guid)order.IdDriver);
+                return order;
             }
             else return null;
         }
 
+        [HttpGet("DriverIgnore")]
+        public void DriverIgnore(Guid idOrder)
+        {
+            var order = _repoOrder.FindById(idOrder);
+            order.IdDriver = os.FindDriver(_repoDriver);
+            _repoOrder.Update(order);
+        }
+
+        [HttpGet("ChangeStatus")]
+        public void ChangeStatus(int newStatus, Guid idOrder)
+        {
+            var order = _repoOrder.FindById(idOrder);
+            order.Status = newStatus;
+            _repoOrder.Update(order);
+        }
+
+        [HttpGet("TopUpBalance")]
+        public void TopUpBalance(Guid idOrder, Guid idDriver)
+        {
+            var order = _repoOrder.FindById(idOrder);
+            var account = _repoPA.FindById(idDriver);
+            account.Balance += (int)(order.Cost * 0.75);
+            _repoPA.Update(account);
+        }
     }
 }
