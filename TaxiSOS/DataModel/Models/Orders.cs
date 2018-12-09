@@ -7,7 +7,7 @@ namespace DataModel
     {
         public Guid IdOrder { get; set; }
         public Guid IdClient { get; set; }
-        public Guid? IdDriver { get; set; }
+        public Guid IdDriver { get; set; }
         public string ArrivalPoint { get; set; }
         public string DestinationPoint { get; set; }
         public DateTime OrderTime { get; set; }

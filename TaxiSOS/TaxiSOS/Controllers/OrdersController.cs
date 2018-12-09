@@ -48,7 +48,7 @@ namespace TaxiSOS.Controllers
         [HttpPut("{id}")]
         public void Update(Guid id, [FromBody]Orders order)
         {
-            if (order.IdDriver == id)
+            if (order.IdOrder == id)
                 _repoOrder.Update(order);
         }
 
@@ -56,7 +56,7 @@ namespace TaxiSOS.Controllers
         public void Delete(Guid id)
         {
             Orders c = _repoOrder.FindById(id);
-            Drivers driver = _repoDriver.FindById((Guid)c.IdDriver);
+            Drivers driver = _repoDriver.FindById(c.IdDriver);
             driver.Status = 0;
             _repoOrder.Remove(c);
         }
@@ -129,7 +129,7 @@ namespace TaxiSOS.Controllers
                 return null;
             } 
             else
-                return _repoDriver.FindById((Guid)order.IdDriver);
+                return _repoDriver.FindById(order.IdDriver);
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace TaxiSOS.Controllers
             return _repo.Get();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{number}")]
         public Cards Get(string number)
         {
             return _repo.Get().Where(dr => dr.CardNumber == number).First();
@@ -36,14 +36,14 @@ namespace TaxiSOS.Controllers
             _repo.Create(value);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{number}")]
         public void Update(string number, [FromBody]Cards card)
         {
             if (card.CardNumber == number)
                 _repo.Update(card);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{number}")]
         public void Delete(string number)
         {
             var cards = _repo.Get().Where(dr => dr.CardNumber == number).First();
