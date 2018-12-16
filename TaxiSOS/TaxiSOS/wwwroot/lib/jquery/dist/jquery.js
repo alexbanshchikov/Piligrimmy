@@ -2426,7 +2426,7 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 					}
 				}
 
-				// c unmatched elements for set filters
+				// Track unmatched elements for set filters
 				if ( bySet ) {
 					// They will have gone through all possible matchers
 					if ( (elem = !matcher && elem) ) {
@@ -3127,7 +3127,7 @@ function createOptions( options ) {
  *
  *	once:			will ensure the callback list can only be fired once (like a Deferred)
  *
- *	memory:			will keep c of previous values and will call any callback added
+ *	memory:			will keep track of previous values and will call any callback added
  *					after the list has been fired right away with the latest "memorized"
  *					values (like a Deferred)
  *
@@ -3498,7 +3498,7 @@ jQuery.extend( {
 	// Is the DOM ready to be used? Set to true once it occurs.
 	isReady: false,
 
-	// A counter to c how many items to wait for before
+	// A counter to track how many items to wait for before
 	// the ready event fires. See #6781
 	readyWait: 1,
 
@@ -4609,7 +4609,7 @@ jQuery.event = {
 				handlers.push( handleObj );
 			}
 
-			// Keep c of which events have ever been used, for event optimization
+			// Keep track of which events have ever been used, for event optimization
 			jQuery.event.global[ type ] = true;
 		}
 
@@ -8272,7 +8272,7 @@ jQuery.extend( {
 		global: true,
 		processData: true,
 		async: true,
-		contentType: "application/x-www-form-urlencoded; charset=utf-8",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		/*
 		timeout: 0,
 		data: null,

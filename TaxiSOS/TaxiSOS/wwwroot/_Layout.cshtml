@@ -1,6 +1,19 @@
-﻿<head>
-    <link href="/Content/bootstrap.css" rel="stylesheet">
-    <script src="/Scripts/jquery-3.3.1.js"></script>
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -15,11 +28,13 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Библиотека</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav"></ul>
+                <ul class="nav navbar-nav">
+                </ul>
             </div>
         </div>
     </nav>
     <div class="container body-content">
+        @RenderBody()
         <hr />
         <footer>
             <p>&copy; 2018 - Lab_1_MVC</p>
@@ -47,4 +62,6 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
+    @RenderSection("Scripts", required: false)
 </body>
+</html>
