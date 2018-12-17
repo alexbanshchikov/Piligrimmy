@@ -37,9 +37,35 @@
     </div>
     <div class="row">
 
-         <div class="col-md-4 col-md-offset-1" style=" position: absolute; top: 40%; ">
+        <div class="col-md-4 col-md-offset-1" style=" position: absolute; top: 40%; ">
             <h2>Правый блок</h2>
             <p>................</p>
+            <form method="post" action="">
+                <!--JS-->
+                <div>
+                    <input placeholder="Откуда" type="text" name="ArrivalPoint" required>
+                </div><br>
+                <div>
+                    <input placeholder="Куда" type="text" name="DestinationPoint" required>
+                </div><br>
+                <div>
+                    <select name="PayType">
+                        <option>Тип оплаты</option>
+                        <option value="true">Безналичный расчет</option>
+                        <option value="false">Наличный расчет</option>
+                    </select>
+                    <div class="select-arrow"></div>
+                </div><br>
+                <div>
+                    <select name="ServiceClass">
+                        <option>Класс автомобиля</option>
+                        <option value="Томск">Эконом</option>
+                        <option value="Новосибирск">Премиум</option>
+                    </select>
+                    <div class="select-arrow"></div>
+                </div><br>
+                <button type="submit">Зарегитрироваться</button>
+            </form>
         </div>
     </div>
     <script src="Scripts/JavaScript.js">
