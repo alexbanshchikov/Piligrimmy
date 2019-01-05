@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TaxiSOS.Services;
 using DataModel;
+using DataModel.Models;
 using static DataModel.Enums.StatusEnum;
 
 namespace TaxiSOS.Controllers
