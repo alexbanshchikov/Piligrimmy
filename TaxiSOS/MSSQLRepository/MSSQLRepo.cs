@@ -11,7 +11,7 @@ namespace MSSQLRepository
     {
         TaxiSOSContext _context;
         DbSet<TEntity> _dbSet;
-
+        
         public MSSQLRepo(TaxiSOSContext context)
         {
             _context = context;
