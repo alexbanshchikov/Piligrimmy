@@ -8,6 +8,7 @@ namespace DataModel
         public Guid IdClient { get; set; }
         public string CardNumber { get; set; }
         public string Cvv { get; set; }
+        public string CardOwner { get; set; }
         public DateTime ExpireDate { get; set; }
 
         public Clients IdClientNavigation { get; set; }
