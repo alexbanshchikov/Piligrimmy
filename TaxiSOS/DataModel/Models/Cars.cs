@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataModel
+namespace DataModel.Models
 {
     public partial class Cars
     {
@@ -12,6 +12,6 @@ namespace DataModel
         public string Color { get; set; }
         public string ServiceClass { get; set; }
 
-        public Drivers IdDriverNavigation { get; set; }
+        public virtual Drivers IdDriverNavigation { get; set; }
     }
 }

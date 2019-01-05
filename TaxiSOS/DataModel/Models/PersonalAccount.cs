@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataModel
+namespace DataModel.Models
 {
     public partial class PersonalAccount
     {
@@ -9,6 +9,6 @@ namespace DataModel
         public string AccountNumber { get; set; }
         public int Balance { get; set; }
 
-        public Drivers IdDriverNavigation { get; set; }
+        public virtual Drivers IdDriverNavigation { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataModel
+namespace DataModel.Models
 {
     public partial class Drivers
     {
@@ -19,8 +19,9 @@ namespace DataModel
         public bool Blocked { get; set; }
         public int Status { get; set; }
 
-        public ICollection<Cars> Cars { get; set; }
-        public ICollection<Orders> Orders { get; set; }
-        public ICollection<PersonalAccount> PersonalAccount { get; set; }
+        public virtual Account LicenseNumberNavigation { get; set; }
+        public virtual ICollection<Cars> Cars { get; set; }
+        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<PersonalAccount> PersonalAccount { get; set; }
     }
 }
