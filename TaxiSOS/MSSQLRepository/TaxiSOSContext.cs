@@ -17,7 +17,7 @@ namespace MSSQLRepository
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=LAPTOP-VEV0U443;Database=TaxiSOS;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=LENOVO;Database=TaxiSOS;Trusted_Connection=True;");
             }
         }
 
@@ -38,6 +38,12 @@ namespace MSSQLRepository
                     .IsRequired()
                     .HasColumnName("CVV")
                     .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CardOwner)
+                    .IsRequired()
+                    .HasColumnName("Card_Owner")
+                    .HasMaxLength(5)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ExpireDate)
