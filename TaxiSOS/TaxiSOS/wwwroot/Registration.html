@@ -41,27 +41,28 @@
         <div class="profile">
             <h1>Регистрация</h1>
         </div><br>
-        <form method="post" action="">
-            <!--JS-->
-            <div>
-                <input placeholder="Номер телефона" type="text" name="TelephoneNumber" required>
-            </div><br>
-            <div>
-                <input placeholder="Пароль" type="password" name="Password" required>
-            </div><br>
-            <div>
-                <input placeholder="Повторите пароль" type="password" name="Password" required>
-            </div><br>
-            <div>
-                <select name="city">
-                    <option>Выберите город</option>
-                    <option value="Томск">Томск</option>
-                    <option value="Новосибирск">Новосибирск</option>
-                </select>
-                <div class="select-arrow"></div>
-            </div><br>
-            <button type="submit">Зарегиcтрироваться</button>
-        </form>
+              <form method="post" action="">
+                  <!--JS-->
+                  <input type="hidden" id="roleLogin" name="Role" value="Client">
+                  <div>
+                      <input placeholder="Номер телефона" type="text" name="TelephoneNumber" required>
+                  </div><br>
+                  <div>
+                      <input placeholder="Пароль" type="password" name="Password" required>
+                  </div><br>
+                  <div>
+                      <input placeholder="Повторите пароль" type="password" name="Password" required>
+                  </div><br>
+                  <div>
+                      <select name="city">
+                          <option>Выберите город</option>
+                          <option value="Томск">Томск</option>
+                          <option value="Новосибирск">Новосибирск</option>
+                      </select>
+                      <div class="select-arrow"></div>
+                  </div><br>
+                  <button type="submit">Зарегиcтрироваться</button>
+              </form>
     </div>
 </body>
 </html>

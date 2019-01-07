@@ -1,5 +1,8 @@
 ﻿// Получение карт пользователя
+//<script></script>
 function Getcards() {
+    var token = sessionStorage.getItem(data.access_token);
+    sessionStorage.getItem(data.access_token);
     $.ajax({
         url: '/api/cards',
         type: 'GET',
