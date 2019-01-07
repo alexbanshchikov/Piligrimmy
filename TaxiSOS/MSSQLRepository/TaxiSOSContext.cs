@@ -150,11 +150,6 @@ namespace MSSQLRepository
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.TelephoneNumber)
                     .IsRequired()
                     .HasColumnName("Telephone_Number")
@@ -186,11 +181,6 @@ namespace MSSQLRepository
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.LicenseNumberNavigation)

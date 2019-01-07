@@ -14,7 +14,6 @@ namespace DataModel.Models
 
         public Guid IdDriver { get; set; }
         public string LicenseNumber { get; set; }
-        public string Password { get; set; }
         public string Name { get; set; }
         public bool Blocked { get; set; }
         public int Status { get; set; }
