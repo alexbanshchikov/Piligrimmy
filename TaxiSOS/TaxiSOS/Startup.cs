@@ -72,7 +72,7 @@ namespace TaxiSOS
             {
                 app.UseDeveloperExceptionPage();
             }
-
+           
             // подключаем файлы по умолчанию
             app.UseDefaultFiles();
             // подключаем статические файлы
@@ -86,6 +86,8 @@ namespace TaxiSOS
                 RequestPath = "/node_modules",
                 EnableDirectoryBrowsing = false
             });
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }
