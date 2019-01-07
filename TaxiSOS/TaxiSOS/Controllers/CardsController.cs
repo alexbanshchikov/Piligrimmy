@@ -1,5 +1,6 @@
 ﻿using DataModel;
 using DataModel.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace TaxiSOS.Controllers
             _repo = repo;
         }
 
+        [Authorize]
         [HttpGet]
         public IEnumerable<Cards> Get()
         {

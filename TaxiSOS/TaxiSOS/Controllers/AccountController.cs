@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DataModel;
 using DataModel.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +18,11 @@ namespace TaxiSOS.Controllers
     [Route("api/Account")]
     public class AccountController : Controller
     {
-        private List<Account> accounts = new List<Account>
+        private readonly IRepository<Account> _repo = null;
+        public AccountController(IRepository<Account> repo)
         {
-            new Person { Login="admin@gmail.com", Password="12345", Role = "admin" },
-            new Person { Login="qwerty", Password="55555", Role = "user" }
-        };
+            _repo = repo;
+        }
 
         [HttpPost("/token")]
         public async Task Token()
@@ -61,7 +62,8 @@ namespace TaxiSOS.Controllers
 
         private ClaimsIdentity GetIdentity(string username, string password)
         {
-            Person person = people.FirstOrDefault(x => x.Login == username && x.Password == password);
+            Account person = _repo.Get().Where(x => x.Login == username && x.Password == password).FirstOrDefault();
+
             if (person != null)
             {
                 var claims = new List<Claim>
