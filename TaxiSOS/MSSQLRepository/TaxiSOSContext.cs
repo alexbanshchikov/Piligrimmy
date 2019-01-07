@@ -74,6 +74,12 @@ namespace MSSQLRepository
                     .HasMaxLength(3)
                     .IsUnicode(false);
 
+                entity.Property(e => e.CardOwner)
+                    .IsRequired()
+                    .HasColumnName("Card_Owner")
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ExpireDate)
                     .HasColumnName("Expire_Date")
                     .HasColumnType("datetime");
