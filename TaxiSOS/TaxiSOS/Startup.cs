@@ -62,7 +62,7 @@ namespace TaxiSOS
             container.RegisterType<IRepository<Orders>, MSSQLRepo<Orders>>();
             container.RegisterType<IRepository<Cards>, MSSQLRepo<Cards>>();
             container.RegisterType<IRepository<PersonalAccount>, MSSQLRepo<PersonalAccount>>();
-
+            container.RegisterType<IRepository<Account>, MSSQLRepo<Account>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
