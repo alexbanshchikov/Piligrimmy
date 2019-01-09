@@ -5,6 +5,7 @@ using System.Globalization;
 using DataModel;
 using System;
 using DataModel.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TaxiSOS.Services
 {
@@ -13,6 +14,7 @@ namespace TaxiSOS.Services
         IRepository<Drivers> _repo;
         CultureInfo cultureInfo = new CultureInfo("en-US");
 
+        [Authorize]
         public int Calculate(string From, string To)
         {
             string _latFrom, _lonFrom, _latTo, _lonTo;
@@ -29,7 +31,7 @@ namespace TaxiSOS.Services
             return cost;
         }
 
-        public void Points(string point, out string lat, out string lon)
+        private void Points(string point, out string lat, out string lon)
         {
             string response = new WebClient().DownloadString("http://search.maps.sputnik.ru/search?q=" + point);
             var root = JObject.Parse(response);
