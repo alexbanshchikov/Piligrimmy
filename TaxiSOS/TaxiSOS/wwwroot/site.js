@@ -1,12 +1,9 @@
-﻿// Получение карт пользователя
-//<script></script>
-function Getcards() {
+﻿function Getcards() {
     $.ajax({
-        url: '/api/cards',
+        url: '/api/cards?id=' + sessionStorage.getItem('id_Client'),
         type: 'GET',
         contentType: "application/json",
         beforeSend: function (xhr) {
-
             var token = sessionStorage.getItem("accessToken");
             xhr.setRequestHeader("Authorization", "Bearer " + token);
         },
@@ -20,84 +17,75 @@ function Getcards() {
     });
 }
 
-//Отображение формы создания карты
-function show(elementId) {
-    var div = document.getElementById(elementId);
-    div.style.display = 'block';
-    //document.getElementById(elementId).style.display = "block";
-}
+var tokenKey = "accessToken";
+var clientKey = "id_Client";
+$('#submitLogin').click(function (e) {
+    e.preventDefault();
+    var loginData = {
+        grant_type: 'password',
+        username: $('#emailLogin').val(),
+        password: $('#passwordLogin').val()
+    };
 
-// создание строки для таблицы
-var row = function (c) {
-    return "<tr data-rowid='" + c.cardNumber + "'><td style= \'display: none;\' >" + c.idClient + "</td>" +
-        "<td>" + c.cardNumber + "</td> <td>" + c.cardOwner + "</td>" +
-        "<td>" + c.expireDate + "</td> <td>" + c.cvv + "</td>" +
-        "<td><a class='editLink' data-id='" + c.cardNumber + "'>Изменить</a> | " +
-        "<a class='removeLink' data-id='" + c.cardNumber + "'>Удалить</a></td></tr>";
-}
-
-function hideCardForm() {
-    var div = document.getElementById('cardForm');
-    div.style.display = 'none';
-}
-
-// сброс формы
-function reset() {
-    var form = document.forms["cardForm"];
-    form.reset();
-    form.elements["id"].value = 0;
-}
-
-// Добавление карты
-function CreateCard(_idClient, _cardNumber, _cardOwner, _expireDate, _cvv) {
     $.ajax({
-        url: "api/cards",
-        contentType: "application/json",
-        method: "POST",
-        data: JSON.stringify({
-            IdClient: _idClient,
-            CardNumber: _cardNumber,
-            CardOwner: _cardOwner,
-            ExpireDate: _expireDate,
-            Cvv: _cvv
-        }),
-        success: function (c) {
-            hideCardForm();
-            $(tableMain).find('tbody').append(rows);
-        }
-    })
-}
+        type: 'POST',
+        url: '/token',
+        data: loginData
+    }).success(function (data) {
+        $('.userName').text(data.username);
+        $('.id_client').text(data.id_Client);
 
-// сброс значений формы
-$("#reset").click(function (e) {
-    e.preventDefault();
-    reset();
-})
-
-// нажимаем на кнопку Сохранить
-$("form").submit(function (e) {
-    e.preventDefault();
-    var idClient = "a8bdf886-acbe-43fc-a9c4-0c4c186273a4";
-    var cardNumber = this.elements["CardNumber"].value;
-    var cardOwner = this.elements["CardOwner"].value;
-    var expireDate = this.elements["ExpireDate"].value;
-    var cvv = this.elements["Cvv"].value;
-    //if (id == 0)
-    CreateCard(idClient, cardNumber, cardOwner, expireDate, cvv);
-   // else
-    //    EditCase(id, title, reportingForm, done, creationDate, reportDate);
+        // $('.userInfo').css('display', 'block');
+        // $('.loginForm').css('display', 'none');
+        // сохраняем в хранилище sessionStorage токен доступа
+        sessionStorage.setItem(tokenKey, data.access_token);
+        sessionStorage.setItem(clientKey, data.id_Client);
+        window.location.href = "/Account.html";
+    }).fail(function (data) {
+        console.log(data);
+    });
 });
 
-// нажимаем на ссылку Изменить
-$("body").on("click", ".editLink", function () {
-    var id = $(this).data("id");
-    GetCase(id);
-})
-// нажимаем на ссылку Удалить
-$("body").on("click", ".removeLink", function () {
-    var id = $(this).data("id");
-    DeleteCase(id);
-    location.reload();
-})
+$('#logOut').click(function (e) { //Обработчик выхода пользователя
+    e.preventDefault();
+    sessionStorage.removeItem(tokenKey);
+});
 
-Getcards();
+$('#getDataByLogin').click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'GET',
+        url: '/api/values/getlogin',
+        beforeSend: function (xhr) {
+
+            var token = sessionStorage.getItem(tokenKey);
+            xhr.setRequestHeader("Authorization", "Bearer " + token);
+        },
+        success: function (data) {
+            alert(data);
+        },
+        fail: function (data) {
+            console.log(data);
+        }
+    });
+});
+$('#getDataByRole').click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'GET',
+        url: '/api/values/getrole',
+        beforeSend: function (xhr) {
+
+            var token = sessionStorage.getItem(tokenKey);
+            xhr.setRequestHeader("Authorization", "Bearer " + token);
+        },
+        success: function (data) {
+            alert(data);
+        },
+        fail: function (data) {
+            console.log(data);
+        }
+    });
+});
+
+

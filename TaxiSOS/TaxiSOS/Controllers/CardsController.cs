@@ -2,6 +2,7 @@
 using DataModel.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,23 +20,26 @@ namespace TaxiSOS.Controllers
 
         [Authorize]
         [HttpGet]
-        public IEnumerable<Cards> Get()
+        public IEnumerable<Cards> Get(Guid id)
         {
-            return _repo.Get();
+            return _repo.Get().Where(x => x.IdClient == id);
         }
 
+        [Authorize]
         [HttpGet("{number}")]
         public Cards Get(string number)
         {
             return _repo.Get().Where(dr => dr.CardNumber == number).First();
         }
 
+        [Authorize]
         [HttpPost]
         public void Create([FromBody]Cards value)
         {
             _repo.Create(value);
         }
 
+        [Authorize]
         [HttpPut("{number}")]
         public void Update(string number, [FromBody]Cards card)
         {
@@ -43,6 +47,7 @@ namespace TaxiSOS.Controllers
                 _repo.Update(card);
         }
 
+        [Authorize]
         [HttpDelete("{number}")]
         public void Delete(string number)
         {

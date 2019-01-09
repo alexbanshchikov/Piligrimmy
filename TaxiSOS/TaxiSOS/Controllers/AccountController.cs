@@ -18,10 +18,12 @@ namespace TaxiSOS.Controllers
     [Route("api/Account")]
     public class AccountController : Controller
     {
-        private readonly IRepository<Account> _repo = null;
-        public AccountController(IRepository<Account> repo)
+        private readonly IRepository<Account> _repoAccount = null;
+        private readonly IRepository<Clients> _repoClient = null;
+        public AccountController(IRepository<Account> repoAccount, IRepository<Clients> repoClient)
         {
-            _repo = repo;
+            _repoAccount = repoAccount;
+            _repoClient = repoClient;
         }
 
         [HttpPost("/token")]
@@ -38,6 +40,8 @@ namespace TaxiSOS.Controllers
                 return;
             }
 
+            var idClient = _repoClient.Get().Where(x => x.TelephoneNumber == username).FirstOrDefault().IdClient;
+
             var now = DateTime.UtcNow;
             // создаем JWT-токен
             var jwt = new JwtSecurityToken(
@@ -52,7 +56,8 @@ namespace TaxiSOS.Controllers
             var response = new
             {
                 access_token = encodedJwt,
-                username = identity.Name
+                username = identity.Name,
+                id_Client = idClient
             };
 
             // сериализация ответа
@@ -62,7 +67,7 @@ namespace TaxiSOS.Controllers
 
         private ClaimsIdentity GetIdentity(string username, string password)
         {
-            Account person = _repo.Get().Where(x => x.Login == username && x.Password == password).FirstOrDefault();
+            Account person = _repoAccount.Get().Where(x => x.Login == username && x.Password == password).FirstOrDefault();
 
             if (person != null)
             {
