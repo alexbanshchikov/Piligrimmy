@@ -17,6 +17,14 @@
     });
 }
 
+function a() {
+    if (sessionStorage.getItem("accessToken") === null) {
+        //Тут надо напиздеть на пользователя, что он не авторизован. Ниже редиррект на авторизацию!!!
+        //window.location.href = "/Authorisation.html";
+    }
+}
+
+
 var tokenKey = "accessToken";
 var clientKey = "id_Client";
 $('#submitLogin').click(function (e) {
@@ -35,8 +43,6 @@ $('#submitLogin').click(function (e) {
         $('.userName').text(data.username);
         $('.id_client').text(data.id_Client);
 
-        // $('.userInfo').css('display', 'block');
-        // $('.loginForm').css('display', 'none');
         // сохраняем в хранилище sessionStorage токен доступа
         sessionStorage.setItem(tokenKey, data.access_token);
         sessionStorage.setItem(clientKey, data.id_Client);
@@ -69,6 +75,7 @@ $('#getDataByLogin').click(function (e) {
         }
     });
 });
+
 $('#getDataByRole').click(function (e) {
     e.preventDefault();
     $.ajax({

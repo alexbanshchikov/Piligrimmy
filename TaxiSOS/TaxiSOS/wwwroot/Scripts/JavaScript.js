@@ -1,7 +1,11 @@
 ﻿
 function GetClients() {
     var timerId = setInterval(function () {
-        if ((document.getElementById("ArrivalPoint").value != '') && (document.getElementById("DestinationPoint").value != '')) { 
+        if (sessionStorage.getItem("accessToken") === null) {
+            //Всплывающее окно: Иди нахуй регистрируйся!
+            //window.location.href = "/Authorisation.html";
+        }
+        if ((document.getElementById("ArrivalPoint").value !== '') && (document.getElementById("DestinationPoint").value !== '')) { 
 
             GetCost();
             clearInterval(timerId);
@@ -14,6 +18,10 @@ function GetCost() {
         url: '/api/orders/calc?From=' + document.getElementById("ArrivalPoint").value + '&To=' + document.getElementById("DestinationPoint").value,
         type: 'GET',
         contentType: "application/json",
+        beforeSend: function (xhr) {
+            var token = sessionStorage.getItem("accessToken");
+            xhr.setRequestHeader("Authorization", "Bearer " + token);
+        },
         success: function (result) {
             var costDok = document.getElementById('cost');
             costDok.innerHTML = "Стоимость поездки: " + result;
@@ -23,7 +31,7 @@ function GetCost() {
 }
 
 $('#ordering').click(function (e) {
-    if (document.getElementById('ordering').innerText == "Заказать") {
+    if (document.getElementById('ordering').innerText === "Заказать") {
         document.getElementById("ArrivalPoint").disabled = true;
         document.getElementById("DestinationPoint").disabled = true;
         $('#dialog').dialog();
