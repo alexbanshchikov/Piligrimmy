@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModel", "DataModel\Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSSQLRepository", "MSSQLRepository\MSSQLRepository.csproj", "{AAA66C6A-1E00-4426-A519-69BE8B37F9A6}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "JS-Client", "JS-Client\JS-Client.njsproj", "{D40E3F7D-F7ED-4748-987D-B9D92208B773}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{AAA66C6A-1E00-4426-A519-69BE8B37F9A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAA66C6A-1E00-4426-A519-69BE8B37F9A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAA66C6A-1E00-4426-A519-69BE8B37F9A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D40E3F7D-F7ED-4748-987D-B9D92208B773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D40E3F7D-F7ED-4748-987D-B9D92208B773}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D40E3F7D-F7ED-4748-987D-B9D92208B773}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D40E3F7D-F7ED-4748-987D-B9D92208B773}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
