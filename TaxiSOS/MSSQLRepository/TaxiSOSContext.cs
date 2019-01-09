@@ -11,7 +11,6 @@ namespace MSSQLRepository
         }
 
         public virtual DbSet<Account> Account { get; set; }
-        public virtual DbSet<Cards> Cards { get; set; }
         public virtual DbSet<Cars> Cars { get; set; }
         public virtual DbSet<Clients> Clients { get; set; }
         public virtual DbSet<Drivers> Drivers { get; set; }
@@ -22,8 +21,8 @@ namespace MSSQLRepository
         {
             if (!optionsBuilder.IsConfigured)
             {
-                // optionsBuilder.UseSqlServer("Server=LENOVO;Database=TaxiSOS;Trusted_Connection=True;"); LAPTOP-VEV0U443
-                optionsBuilder.UseSqlServer("Server=LAPTOP-VEV0U443;Database=TaxiSOS;Trusted_Connection=True;"); 
+                optionsBuilder.UseSqlServer("Server=LENOVO;Database=TaxiSOS;Trusted_Connection=True;");
+                //optionsBuilder.UseSqlServer("Server=LAPTOP-VEV0U443;Database=TaxiSOS;Trusted_Connection=True;"); 
             }
         }
 
@@ -49,48 +48,7 @@ namespace MSSQLRepository
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<Cards>(entity =>
-            {
-                entity.HasKey(e => new { e.IdClient, e.CardNumber })
-                    .HasName("PK_Карты");
-
-                entity.Property(e => e.IdClient).HasColumnName("Id_Client");
-
-                entity.Property(e => e.CardNumber)
-                    .HasColumnName("Card_Number")
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CardOwner)
-                    .IsRequired()
-                    .HasColumnName("Card_Owner")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Cvv)
-                    .IsRequired()
-                    .HasColumnName("CVV")
-                    .HasMaxLength(3)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CardOwner)
-                    .IsRequired()
-                    .HasColumnName("Card_Owner")
-                    .HasMaxLength(5)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ExpireDate)
-                    .HasColumnName("Expire_Date")
-                    .HasColumnType("datetime");
-
-                entity.HasOne(d => d.IdClientNavigation)
-                    .WithMany(p => p.Cards)
-                    .HasForeignKey(d => d.IdClient)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Cards_Clients");
-            });
+            });          
 
             modelBuilder.Entity<Cars>(entity =>
             {
@@ -116,12 +74,6 @@ namespace MSSQLRepository
                 entity.Property(e => e.RegistrationNumber)
                     .IsRequired()
                     .HasColumnName("Registration_Number")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ServiceClass)
-                    .IsRequired()
-                    .HasColumnName("Service_Class")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 

@@ -9,9 +9,7 @@ namespace DataModel.Models
         public Guid IdDriver { get; set; }
         public string RegistrationNumber { get; set; }
         public string Mark { get; set; }
-        public string Color { get; set; }
-        public string ServiceClass { get; set; }
-
+        public string Color { get; set; } 
         public virtual Drivers IdDriverNavigation { get; set; }
     }
 }

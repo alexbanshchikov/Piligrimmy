@@ -11,7 +11,7 @@
             var rows = "";
             $.each(cards, function (index, c) {
                 rows += row(c);
-            })
+            });
             $(tableMain).find('tbody').append(rows);
         }
     });
@@ -40,7 +40,7 @@ $('#submitLogin').click(function (e) {
         // сохраняем в хранилище sessionStorage токен доступа
         sessionStorage.setItem(tokenKey, data.access_token);
         sessionStorage.setItem(clientKey, data.id_Client);
-        window.location.href = "/Account.html";
+        window.location.href = "/Index.html";
     }).fail(function (data) {
         console.log(data);
     });
