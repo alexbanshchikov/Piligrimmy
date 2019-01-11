@@ -29,7 +29,16 @@ namespace TaxiSOS.Controllers
         public void Create([FromBody]ClientAccount value)
         {
             var v = value;
-           // _repoAccount.Create(value);
+            Account ac = new Account();
+            ac.Login = value.TelephoneNumber;
+            ac.Password = value.Password;
+            ac.Role = value.Role;
+            _repoAccount.Create(ac);
+            Clients cl = new Clients();
+            cl.Email = value.Email;
+            cl.City = value.City;
+            cl.TelephoneNumber = value.TelephoneNumber;
+            _repoClient.Create(cl);
 
         }
 
