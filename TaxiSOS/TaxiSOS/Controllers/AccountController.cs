@@ -25,6 +25,13 @@ namespace TaxiSOS.Controllers
             _repoAccount = repoAccount;
             _repoClient = repoClient;
         }
+        [HttpPost]
+        public void Create([FromBody]ClientAccount value)
+        {
+            var v = value;
+           // _repoAccount.Create(value);
+
+        }
 
         [HttpPost("/token")]
         public async Task Token()
