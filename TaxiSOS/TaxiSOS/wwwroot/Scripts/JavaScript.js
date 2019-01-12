@@ -23,20 +23,25 @@ function GetCost() {
 }
 
 $('#ordering').click(function (e) {
-    if (document.getElementById('ordering').innerText == "Заказать") {
-        document.getElementById("ArrivalPoint").disabled = true;
-        document.getElementById("DestinationPoint").disabled = true;
-        $('#dialog').dialog();
-        document.getElementById('id1').innerHTML = "Ожидайте уведомление на электронную почту";
-        document.getElementById('ordering').innerText = "Отменить";
-    }
-    else {
-        /*document.getElementById("ArrivalPoint").disabled = false;
-        document.getElementById("DestinationPoint").disabled = false;
-        document.getElementById('ordering').innerText = "Заказать";
-        GetCost();*/
-        location.reload();
-    }
+    if ((document.getElementById("ArrivalPoint").value != '') && (document.getElementById("DestinationPoint").value != '')) {
+        if (document.getElementById('ordering').innerText == "Заказать") {
+            document.getElementById("ArrivalPoint").disabled = true;
+            document.getElementById("DestinationPoint").disabled = true;
+            $('#dialog').dialog();
+            document.getElementById('id1').innerHTML = "Ожидайте уведомление на электронную почту";
+            document.getElementById('ordering').innerText = "Отменить";
+        }
+        else {
+            /*document.getElementById("ArrivalPoint").disabled = false;
+            document.getElementById("DestinationPoint").disabled = false;
+            document.getElementById('ordering').innerText = "Заказать";
+            GetCost();*/
+            location.reload();
+        }
+    } else {
+        alert("Заполните поля");
+
+    } 
 });
 
 GetClients();
