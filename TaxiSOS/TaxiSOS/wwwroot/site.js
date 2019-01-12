@@ -17,6 +17,7 @@
     });
 }
 
+
 var tokenKey = "accessToken";
 var clientKey = "id_Client";
 $('#submitLogin').click(function (e) {
@@ -35,12 +36,9 @@ $('#submitLogin').click(function (e) {
         $('.userName').text(data.username);
         $('.id_client').text(data.id_Client);
 
-        // $('.userInfo').css('display', 'block');
-        // $('.loginForm').css('display', 'none');
-        // сохраняем в хранилище sessionStorage токен доступа
         sessionStorage.setItem(tokenKey, data.access_token);
         sessionStorage.setItem(clientKey, data.id_Client);
-        window.location.href = "/Account.html";
+        window.location.href = "/Index.html";
     }).fail(function (data) {
         console.log(data);
     });
@@ -69,6 +67,7 @@ $('#getDataByLogin').click(function (e) {
         }
     });
 });
+
 $('#getDataByRole').click(function (e) {
     e.preventDefault();
     $.ajax({

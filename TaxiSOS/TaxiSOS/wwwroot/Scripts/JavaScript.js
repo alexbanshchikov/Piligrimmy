@@ -1,7 +1,7 @@
 ﻿
 function GetClients() {
     var timerId = setInterval(function () {
-        if ((document.getElementById("ArrivalPoint").value != '') && (document.getElementById("DestinationPoint").value != '')) { 
+        if ((document.getElementById("ArrivalPoint").value !== '') && (document.getElementById("DestinationPoint").value !== '')) { 
 
             GetCost();
             clearInterval(timerId);
@@ -23,8 +23,16 @@ function GetCost() {
 }
 
 $('#ordering').click(function (e) {
+<<<<<<< HEAD
     if ((document.getElementById("ArrivalPoint").value != '') && (document.getElementById("DestinationPoint").value != '')) {
         if (document.getElementById('ordering').innerText == "Заказать") {
+=======
+    if (sessionStorage.getItem("accessToken") === null) {
+        window.location.href = "/Authorisation.html";
+    }
+    else {
+        if (document.getElementById('ordering').innerText === "Заказать") {
+>>>>>>> Authorisation
             document.getElementById("ArrivalPoint").disabled = true;
             document.getElementById("DestinationPoint").disabled = true;
             $('#dialog').dialog();
@@ -32,6 +40,7 @@ $('#ordering').click(function (e) {
             document.getElementById('ordering').innerText = "Отменить";
         }
         else {
+<<<<<<< HEAD
             /*document.getElementById("ArrivalPoint").disabled = false;
             document.getElementById("DestinationPoint").disabled = false;
             document.getElementById('ordering').innerText = "Заказать";
@@ -42,6 +51,11 @@ $('#ordering').click(function (e) {
         alert("Заполните поля");
 
     } 
+=======
+            location.reload();
+        }
+    }    
+>>>>>>> Authorisation
 });
 
 GetClients();
