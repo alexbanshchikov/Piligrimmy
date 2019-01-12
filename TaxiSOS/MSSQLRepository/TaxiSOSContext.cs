@@ -1,10 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using DataModel;
+﻿using DataModel.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MSSQLRepository
 {
     public partial class TaxiSOSContext : DbContext
     {
+        public TaxiSOSContext(DbContextOptions<TaxiSOSContext> options)
+            : base(options)
+        {
+        }
+
+        public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<Cards> Cards { get; set; }
         public virtual DbSet<Cars> Cars { get; set; }
         public virtual DbSet<Clients> Clients { get; set; }
@@ -16,16 +22,39 @@ namespace MSSQLRepository
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=LENOVO;Database=TaxiSOS;Trusted_Connection=True;");
+                // optionsBuilder.UseSqlServer("Server=LENOVO;Database=TaxiSOS;Trusted_Connection=True;"); LAPTOP-VEV0U443
+                optionsBuilder.UseSqlServer("Server=LAPTOP-VEV0U443;Database=TaxiSOS;Trusted_Connection=True;"); 
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
+
+            modelBuilder.Entity<Account>(entity =>
+            {
+                entity.HasKey(e => e.Login);
+
+                entity.Property(e => e.Login)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Role)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Cards>(entity =>
             {
-                entity.HasKey(e => new { e.IdClient, e.CardNumber });
+                entity.HasKey(e => new { e.IdClient, e.CardNumber })
+                    .HasName("PK_Карты");
 
                 entity.Property(e => e.IdClient).HasColumnName("Id_Client");
 
@@ -34,10 +63,22 @@ namespace MSSQLRepository
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+                entity.Property(e => e.CardOwner)
+                    .IsRequired()
+                    .HasColumnName("Card_Owner")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Cvv)
                     .IsRequired()
                     .HasColumnName("CVV")
                     .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CardOwner)
+                    .IsRequired()
+                    .HasColumnName("Card_Owner")
+                    .HasMaxLength(5)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ExpireDate)
@@ -53,7 +94,8 @@ namespace MSSQLRepository
 
             modelBuilder.Entity<Cars>(entity =>
             {
-                entity.HasKey(e => e.IdCar);
+                entity.HasKey(e => e.IdCar)
+                    .HasName("PK_Машины");
 
                 entity.Property(e => e.IdCar)
                     .HasColumnName("Id_Car")
@@ -92,7 +134,8 @@ namespace MSSQLRepository
 
             modelBuilder.Entity<Clients>(entity =>
             {
-                entity.HasKey(e => e.IdClient);
+                entity.HasKey(e => e.IdClient)
+                    .HasName("PK_Клиенты");
 
                 entity.Property(e => e.IdClient)
                     .HasColumnName("Id_Client")
@@ -108,21 +151,23 @@ namespace MSSQLRepository
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.TelephoneNumber)
                     .IsRequired()
                     .HasColumnName("Telephone_Number")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.TelephoneNumberNavigation)
+                    .WithMany(p => p.Clients)
+                    .HasForeignKey(d => d.TelephoneNumber)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Clients_Account");
             });
 
             modelBuilder.Entity<Drivers>(entity =>
             {
-                entity.HasKey(e => e.IdDriver);
+                entity.HasKey(e => e.IdDriver)
+                    .HasName("PK_Водители");
 
                 entity.Property(e => e.IdDriver)
                     .HasColumnName("Id_Driver")
@@ -139,10 +184,11 @@ namespace MSSQLRepository
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.HasOne(d => d.LicenseNumberNavigation)
+                    .WithMany(p => p.Drivers)
+                    .HasForeignKey(d => d.LicenseNumber)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Drivers_Account");
             });
 
             modelBuilder.Entity<Orders>(entity =>
@@ -182,12 +228,14 @@ namespace MSSQLRepository
                 entity.HasOne(d => d.IdDriverNavigation)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.IdDriver)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Drivers");
             });
 
             modelBuilder.Entity<PersonalAccount>(entity =>
             {
-                entity.HasKey(e => e.AccountNumber);
+                entity.HasKey(e => e.AccountNumber)
+                    .HasName("PK_Лицевые счета");
 
                 entity.ToTable("Personal_Account");
 

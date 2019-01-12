@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataModel
+namespace DataModel.Models
 {
     public partial class Orders
     {
@@ -13,9 +13,9 @@ namespace DataModel
         public DateTime OrderTime { get; set; }
         public int Cost { get; set; }
         public bool PayType { get; set; }
-        public int? Status { get; set; }
+        public int Status { get; set; }
 
-        public Clients IdClientNavigation { get; set; }
-        public Drivers IdDriverNavigation { get; set; }
+        public virtual Clients IdClientNavigation { get; set; }
+        public virtual Drivers IdDriverNavigation { get; set; }
     }
 }

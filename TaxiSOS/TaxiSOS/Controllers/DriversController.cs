@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using DataModel;
+using DataModel.Models;
 using Microsoft.AspNetCore.Mvc;
-using DataModel;
+using System;
+using System.Collections.Generic;
 
 namespace TaxiSOS.Controllers
 {

@@ -4,6 +4,7 @@ using System.Net;
 using System.Globalization;
 using DataModel;
 using System;
+using DataModel.Models;
 
 namespace TaxiSOS.Services
 {

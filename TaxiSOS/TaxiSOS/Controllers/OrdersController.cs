@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TaxiSOS.Services;
 using DataModel;
+using DataModel.Models;
 using static DataModel.Enums.StatusEnum;
 
 namespace TaxiSOS.Controllers
@@ -70,7 +71,9 @@ namespace TaxiSOS.Controllers
         [HttpGet("calc")]
         public int Calculate(string From, string To)
         {
-            return os.Calculate(From, To);
+            string From_ = From.Replace(' ', '%');
+            string To_ = To.Replace(' ', '%');
+            return os.Calculate(From_, To_);
         }
 
         /// <summary>

@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using DataModel;
+using DataModel.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using TaxiSOS.Services;
+
+namespace TaxiSOS.Controllers
+{
+    [Produces("application/json")]
+    [Route("api/Account")]
+    public class AccountController : Controller
+    {
+        private readonly IRepository<Account> _repoAccount = null;
+        private readonly IRepository<Clients> _repoClient = null;
+        public AccountController(IRepository<Account> repoAccount, IRepository<Clients> repoClient)
+        {
+            _repoAccount = repoAccount;
+            _repoClient = repoClient;
+        }
+        [HttpPost]
+        public void Create([FromBody]ClientAccount value)
+        {
+            var v = value;
+            Account ac = new Account();
+            ac.Login = value.TelephoneNumber;
+            ac.Password = value.Password;
+            ac.Role = value.Role;
+            _repoAccount.Create(ac);
+            Clients cl = new Clients();
+            cl.Email = value.Email;
+            cl.City = value.City;
+            cl.TelephoneNumber = value.TelephoneNumber;
+            _repoClient.Create(cl);
+
+        }
+
+        [HttpPost("/token")]
+        public async Task Token()
+        {
+            var username = Request.Form["username"];
+            var password = Request.Form["password"];
+
+            var identity = GetIdentity(username, password);
+            if (identity == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Invalid username or password.");
+                return;
+            }
+
+            var idClient = _repoClient.Get().Where(x => x.TelephoneNumber == username).FirstOrDefault().IdClient;
+
+            var now = DateTime.UtcNow;
+            // создаем JWT-токен
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.ISSUER,
+                    audience: AuthOptions.AUDIENCE,
+                    notBefore: now,
+                    claims: identity.Claims,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            var response = new
+            {
+                access_token = encodedJwt,
+                username = identity.Name,
+                id_Client = idClient
+            };
+
+            // сериализация ответа
+            Response.ContentType = "application/json";
+            await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+        }
+
+        private ClaimsIdentity GetIdentity(string username, string password)
+        {
+            Account person = _repoAccount.Get().Where(x => x.Login == username && x.Password == password).FirstOrDefault();
+
+            if (person != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role)
+                };
+                ClaimsIdentity claimsIdentity =
+                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+                return claimsIdentity;
+            }
+
+            // если пользователя не найдено
+            return null;
+        }
+    }
+}
