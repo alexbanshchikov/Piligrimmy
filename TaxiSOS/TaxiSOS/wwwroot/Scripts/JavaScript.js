@@ -23,39 +23,27 @@ function GetCost() {
 }
 
 $('#ordering').click(function (e) {
-<<<<<<< HEAD
-    if ((document.getElementById("ArrivalPoint").value != '') && (document.getElementById("DestinationPoint").value != '')) {
-        if (document.getElementById('ordering').innerText == "Заказать") {
-=======
-    if (sessionStorage.getItem("accessToken") === null) {
-        window.location.href = "/Authorisation.html";
-    }
-    else {
-        if (document.getElementById('ordering').innerText === "Заказать") {
->>>>>>> Authorisation
-            document.getElementById("ArrivalPoint").disabled = true;
-            document.getElementById("DestinationPoint").disabled = true;
-            $('#dialog').dialog();
-            document.getElementById('id1').innerHTML = "Ожидайте уведомление на электронную почту";
-            document.getElementById('ordering').innerText = "Отменить";
-        }
-        else {
-<<<<<<< HEAD
-            /*document.getElementById("ArrivalPoint").disabled = false;
-            document.getElementById("DestinationPoint").disabled = false;
-            document.getElementById('ordering').innerText = "Заказать";
-            GetCost();*/
-            location.reload();
-        }
-    } else {
-        alert("Заполните поля");
 
-    } 
-=======
-            location.reload();
-        }
-    }    
->>>>>>> Authorisation
+            if ((document.getElementById("ArrivalPoint").value != '') && (document.getElementById("DestinationPoint").value != '')) {
+                if (document.getElementById('ordering').innerText == "Заказать") {
+
+                    if (sessionStorage.getItem("accessToken") === null) {
+                        window.location.href = "/Authorisation.html";
+                    } else {
+                            document.getElementById("ArrivalPoint").disabled = true;
+                            document.getElementById("DestinationPoint").disabled = true;
+                            $('#dialog').dialog();
+                            document.getElementById('id1').innerHTML = "Ожидайте уведомление на электронную почту";
+                            document.getElementById('ordering').innerText = "Отменить";
+                        
+                    }
+                }
+                else {
+                    location.reload();
+                }
+            } else {
+                alert("Заполните поля");
+            }
 });
 
 GetClients();
