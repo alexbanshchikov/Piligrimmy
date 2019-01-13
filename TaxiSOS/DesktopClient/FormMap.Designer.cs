@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.gmap = new GMap.NET.WindowsForms.GMapControl();
-            this.mapCheckBoxBusy = new System.Windows.Forms.CheckBox();
-            this.mapButtonMap = new System.Windows.Forms.Button();
-            this.mapButtonAccount = new System.Windows.Forms.Button();
+            this.checkBoxBusy = new System.Windows.Forms.CheckBox();
+            this.buttonMap = new System.Windows.Forms.Button();
+            this.buttonAccount = new System.Windows.Forms.Button();
             this.buttonIgnore = new System.Windows.Forms.Button();
             this.buttonAcceptOrder = new System.Windows.Forms.Button();
             this.buttonGetRoute = new System.Windows.Forms.Button();
@@ -65,36 +65,37 @@
             this.gmap.TabIndex = 0;
             this.gmap.Zoom = 5D;
             // 
-            // mapCheckBoxBusy
+            // checkBoxBusy
             // 
-            this.mapCheckBoxBusy.AutoSize = true;
-            this.mapCheckBoxBusy.Location = new System.Drawing.Point(290, 18);
-            this.mapCheckBoxBusy.Name = "mapCheckBoxBusy";
-            this.mapCheckBoxBusy.Size = new System.Drawing.Size(56, 17);
-            this.mapCheckBoxBusy.TabIndex = 1;
-            this.mapCheckBoxBusy.Text = "Занят";
-            this.mapCheckBoxBusy.UseVisualStyleBackColor = true;
-            this.mapCheckBoxBusy.CheckedChanged += new System.EventHandler(this.mapCheckBoxBusy_CheckedChanged);
+            this.checkBoxBusy.AutoSize = true;
+            this.checkBoxBusy.Location = new System.Drawing.Point(290, 18);
+            this.checkBoxBusy.Name = "checkBoxBusy";
+            this.checkBoxBusy.Size = new System.Drawing.Size(56, 17);
+            this.checkBoxBusy.TabIndex = 1;
+            this.checkBoxBusy.Text = "Занят";
+            this.checkBoxBusy.UseVisualStyleBackColor = true;
+            this.checkBoxBusy.CheckedChanged += new System.EventHandler(this.checkBoxBusy_CheckedChanged);
             // 
-            // mapButtonMap
+            // buttonMap
             // 
-            this.mapButtonMap.Enabled = false;
-            this.mapButtonMap.Location = new System.Drawing.Point(12, 5);
-            this.mapButtonMap.Name = "mapButtonMap";
-            this.mapButtonMap.Size = new System.Drawing.Size(75, 40);
-            this.mapButtonMap.TabIndex = 2;
-            this.mapButtonMap.Text = "Главная";
-            this.mapButtonMap.UseVisualStyleBackColor = true;
+            this.buttonMap.Enabled = false;
+            this.buttonMap.Location = new System.Drawing.Point(12, 5);
+            this.buttonMap.Name = "buttonMap";
+            this.buttonMap.Size = new System.Drawing.Size(75, 40);
+            this.buttonMap.TabIndex = 2;
+            this.buttonMap.Text = "Главная";
+            this.buttonMap.UseVisualStyleBackColor = true;
+            this.buttonMap.Click += new System.EventHandler(this.buttonMap_Click);
             // 
-            // mapButtonAccount
+            // buttonAccount
             // 
-            this.mapButtonAccount.Location = new System.Drawing.Point(155, 5);
-            this.mapButtonAccount.Name = "mapButtonAccount";
-            this.mapButtonAccount.Size = new System.Drawing.Size(75, 40);
-            this.mapButtonAccount.TabIndex = 3;
-            this.mapButtonAccount.Text = "Личный счёт";
-            this.mapButtonAccount.UseVisualStyleBackColor = true;
-            this.mapButtonAccount.Click += new System.EventHandler(this.mapButtonAccount_Click);
+            this.buttonAccount.Location = new System.Drawing.Point(155, 5);
+            this.buttonAccount.Name = "buttonAccount";
+            this.buttonAccount.Size = new System.Drawing.Size(75, 40);
+            this.buttonAccount.TabIndex = 3;
+            this.buttonAccount.Text = "Личный счёт";
+            this.buttonAccount.UseVisualStyleBackColor = true;
+            this.buttonAccount.Click += new System.EventHandler(this.buttonAccount_Click);
             // 
             // buttonIgnore
             // 
@@ -155,9 +156,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 562);
             this.Controls.Add(this.buttonIgnore);
-            this.Controls.Add(this.mapButtonAccount);
-            this.Controls.Add(this.mapButtonMap);
-            this.Controls.Add(this.mapCheckBoxBusy);
+            this.Controls.Add(this.buttonAccount);
+            this.Controls.Add(this.buttonMap);
+            this.Controls.Add(this.checkBoxBusy);
             this.Controls.Add(this.buttonGetRoute);
             this.Controls.Add(this.buttonOnPlace);
             this.Controls.Add(this.buttonAcceptOrder);
@@ -175,9 +176,9 @@
         #endregion
 
         private GMap.NET.WindowsForms.GMapControl gmap;
-        private System.Windows.Forms.CheckBox mapCheckBoxBusy;
-        private System.Windows.Forms.Button mapButtonMap;
-        private System.Windows.Forms.Button mapButtonAccount;
+        private System.Windows.Forms.CheckBox checkBoxBusy;
+        private System.Windows.Forms.Button buttonMap;
+        private System.Windows.Forms.Button buttonAccount;
         private System.Windows.Forms.Button buttonIgnore;
         private System.Windows.Forms.Button buttonAcceptOrder;
         private System.Windows.Forms.Button buttonGetRoute;

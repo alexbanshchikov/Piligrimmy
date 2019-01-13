@@ -102,12 +102,17 @@ namespace DesktopClient
 
         }
 
-        private void mapCheckBoxBusy_CheckedChanged(object sender, EventArgs e)
+        private void checkBoxBusy_CheckedChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void mapButtonAccount_Click(object sender, EventArgs e)
+        private void buttonAccount_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonMap_Click(object sender, EventArgs e)
         {
 
         }
