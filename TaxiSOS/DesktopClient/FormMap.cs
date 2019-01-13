@@ -1,8 +1,11 @@
 ﻿using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using Newtonsoft.Json;
 using System;
 using System.Drawing;
+using System.IO;
+using System.Net;
 using System.Windows.Forms;
 
 namespace DesktopClient
@@ -50,7 +53,61 @@ namespace DesktopClient
             gmap.Overlays.Add(routesOverlay);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonAcceptOrder_Click(object sender, EventArgs e)
+        {
+            //Какая-либо проверка входных данных
+            //if (s.Length > 0)//Проверка на непустую строку
+            {
+                //---Запрос---
+                WebRequest request = WebRequest.Create("");
+                //WebRequest request = WebRequest.Create("https://translate.yandex.net/api/v1.5/tr.json/translate?"
+                //    + "key=trnsl.1.1.20170125T084253Z.cc366274cc3474e9.68d49c802348b39b5d677c856e0805c433b7618c"//Ключ
+                //    + "&text=" + s//Текст
+                //    + "&lang=" + language);//Язык
+
+                //Получаем ответ
+                WebResponse response = request.GetResponse();
+                //--------------------
+                //---Распарсить JSON ответ. Я скачал фреймворк Json.NET
+                using (StreamReader stream = new StreamReader(response.GetResponseStream()))
+                {
+                    string line;
+                    if ((line = stream.ReadLine()) != null)
+                    {
+                        //Translation translation = JsonConvert.DeserializeObject<Translation>(line);
+                        //s = "";
+                        //foreach (string str in translation.text)
+                        //{
+                        //    s += str;
+                        //}
+                    }
+                }
+                //------------------
+
+            }
+        }
+
+        private void buttonOnPlace_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonGetRoute_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonIgnore_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mapCheckBoxBusy_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mapButtonAccount_Click(object sender, EventArgs e)
         {
 
         }

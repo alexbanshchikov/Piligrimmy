@@ -16,5 +16,25 @@ namespace DesktopClient
         {
             InitializeComponent();
         }
+
+        private void buttonMap_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonAccount_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxBusy_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonBackToMap_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

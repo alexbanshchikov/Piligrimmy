@@ -33,6 +33,7 @@
             this.checkBoxBusy = new System.Windows.Forms.CheckBox();
             this.buttonBackToMap = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.textBoxTotal = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,15 +45,18 @@
             this.buttonMap.TabIndex = 3;
             this.buttonMap.Text = "Главная";
             this.buttonMap.UseVisualStyleBackColor = true;
+            this.buttonMap.Click += new System.EventHandler(this.buttonMap_Click);
             // 
             // buttonAccount
             // 
+            this.buttonAccount.Enabled = false;
             this.buttonAccount.Location = new System.Drawing.Point(155, 5);
             this.buttonAccount.Name = "buttonAccount";
             this.buttonAccount.Size = new System.Drawing.Size(75, 40);
             this.buttonAccount.TabIndex = 4;
             this.buttonAccount.Text = "Личный счёт";
             this.buttonAccount.UseVisualStyleBackColor = true;
+            this.buttonAccount.Click += new System.EventHandler(this.buttonAccount_Click);
             // 
             // checkBoxBusy
             // 
@@ -63,6 +67,7 @@
             this.checkBoxBusy.TabIndex = 5;
             this.checkBoxBusy.Text = "Занят";
             this.checkBoxBusy.UseVisualStyleBackColor = true;
+            this.checkBoxBusy.CheckedChanged += new System.EventHandler(this.checkBoxBusy_CheckedChanged);
             // 
             // buttonBackToMap
             // 
@@ -73,20 +78,30 @@
             this.buttonBackToMap.Text = "Вернуться";
             this.buttonBackToMap.UseVisualStyleBackColor = true;
             this.buttonBackToMap.Visible = false;
+            this.buttonBackToMap.Click += new System.EventHandler(this.buttonBackToMap_Click);
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(13, 52);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 52);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(359, 412);
+            this.dataGridView1.Size = new System.Drawing.Size(360, 356);
             this.dataGridView1.TabIndex = 9;
+            // 
+            // textBoxTotal
+            // 
+            this.textBoxTotal.Location = new System.Drawing.Point(12, 414);
+            this.textBoxTotal.Multiline = true;
+            this.textBoxTotal.Name = "textBoxTotal";
+            this.textBoxTotal.Size = new System.Drawing.Size(360, 50);
+            this.textBoxTotal.TabIndex = 10;
             // 
             // FormAccount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 562);
+            this.Controls.Add(this.textBoxTotal);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buttonBackToMap);
             this.Controls.Add(this.checkBoxBusy);
@@ -108,5 +123,6 @@
         private System.Windows.Forms.CheckBox checkBoxBusy;
         private System.Windows.Forms.Button buttonBackToMap;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.TextBox textBoxTotal;
     }
 }

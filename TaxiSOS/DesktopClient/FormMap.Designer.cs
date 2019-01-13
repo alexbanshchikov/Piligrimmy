@@ -74,9 +74,11 @@
             this.mapCheckBoxBusy.TabIndex = 1;
             this.mapCheckBoxBusy.Text = "Занят";
             this.mapCheckBoxBusy.UseVisualStyleBackColor = true;
+            this.mapCheckBoxBusy.CheckedChanged += new System.EventHandler(this.mapCheckBoxBusy_CheckedChanged);
             // 
             // mapButtonMap
             // 
+            this.mapButtonMap.Enabled = false;
             this.mapButtonMap.Location = new System.Drawing.Point(12, 5);
             this.mapButtonMap.Name = "mapButtonMap";
             this.mapButtonMap.Size = new System.Drawing.Size(75, 40);
@@ -92,6 +94,7 @@
             this.mapButtonAccount.TabIndex = 3;
             this.mapButtonAccount.Text = "Личный счёт";
             this.mapButtonAccount.UseVisualStyleBackColor = true;
+            this.mapButtonAccount.Click += new System.EventHandler(this.mapButtonAccount_Click);
             // 
             // buttonIgnore
             // 
@@ -102,6 +105,7 @@
             this.buttonIgnore.Text = "Игнорировать";
             this.buttonIgnore.UseVisualStyleBackColor = true;
             this.buttonIgnore.Visible = false;
+            this.buttonIgnore.Click += new System.EventHandler(this.buttonIgnore_Click);
             // 
             // buttonAcceptOrder
             // 
@@ -112,7 +116,7 @@
             this.buttonAcceptOrder.Text = "Принять заказ";
             this.buttonAcceptOrder.UseVisualStyleBackColor = true;
             this.buttonAcceptOrder.Visible = false;
-            this.buttonAcceptOrder.Click += new System.EventHandler(this.button1_Click);
+            this.buttonAcceptOrder.Click += new System.EventHandler(this.buttonAcceptOrder_Click);
             // 
             // buttonGetRoute
             // 
@@ -123,6 +127,7 @@
             this.buttonGetRoute.Text = "Проложить маршрут";
             this.buttonGetRoute.UseVisualStyleBackColor = true;
             this.buttonGetRoute.Visible = false;
+            this.buttonGetRoute.Click += new System.EventHandler(this.buttonGetRoute_Click);
             // 
             // buttonOnPlace
             // 
@@ -133,6 +138,7 @@
             this.buttonOnPlace.Text = "На месте";
             this.buttonOnPlace.UseVisualStyleBackColor = true;
             this.buttonOnPlace.Visible = false;
+            this.buttonOnPlace.Click += new System.EventHandler(this.buttonOnPlace_Click);
             // 
             // textBox1
             // 
@@ -148,15 +154,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 562);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.buttonOnPlace);
-            this.Controls.Add(this.buttonGetRoute);
-            this.Controls.Add(this.buttonAcceptOrder);
             this.Controls.Add(this.buttonIgnore);
             this.Controls.Add(this.mapButtonAccount);
             this.Controls.Add(this.mapButtonMap);
             this.Controls.Add(this.mapCheckBoxBusy);
+            this.Controls.Add(this.buttonGetRoute);
+            this.Controls.Add(this.buttonOnPlace);
+            this.Controls.Add(this.buttonAcceptOrder);
             this.Controls.Add(this.gmap);
+            this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormMap";
             this.Text = "Таксометр";
