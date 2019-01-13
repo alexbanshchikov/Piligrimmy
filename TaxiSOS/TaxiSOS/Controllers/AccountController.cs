@@ -20,10 +20,12 @@ namespace TaxiSOS.Controllers
     {
         private readonly IRepository<Account> _repoAccount = null;
         private readonly IRepository<Clients> _repoClient = null;
-        public AccountController(IRepository<Account> repoAccount, IRepository<Clients> repoClient)
+        private readonly IRepository<Drivers> _repoDriver = null;
+        public AccountController(IRepository<Account> repoAccount, IRepository<Clients> repoClient, IRepository<Drivers> repoDriver)
         {
             _repoAccount = repoAccount;
             _repoClient = repoClient;
+            _repoDriver = repoDriver;
         }
         [HttpPost]
         public void Create([FromBody]ClientAccount value)
@@ -58,16 +60,7 @@ namespace TaxiSOS.Controllers
 
             var idClient = _repoClient.Get().Where(x => x.TelephoneNumber == username).FirstOrDefault().IdClient;
 
-            var now = DateTime.UtcNow;
-            // создаем JWT-токен
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
-                    notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            var encodedJwt = CreateToken(identity);
 
             var response = new
             {
@@ -79,6 +72,50 @@ namespace TaxiSOS.Controllers
             // сериализация ответа
             Response.ContentType = "application/json";
             await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+        }
+
+        [HttpPost("/tokenDriver")]
+        public async Task Token(Account account)
+        {
+            string username = account.Login;
+            string password = account.Password;
+
+            var identity = GetIdentity(username, password);
+            if (identity == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Invalid username or password.");
+                return;
+            }
+
+            var idDriver = _repoDriver.Get().Where(x => x.LicenseNumber == username).FirstOrDefault().IdDriver;
+
+            var encodedJwt = CreateToken(identity);
+
+            var response = new
+            {
+                access_token = encodedJwt,
+                username = identity.Name,
+                id_Driver = idDriver
+            };
+
+            await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+        }
+
+        private string CreateToken(ClaimsIdentity identity)
+        {
+            var now = DateTime.UtcNow;
+            // создаем JWT-токен
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.ISSUER,
+                    audience: AuthOptions.AUDIENCE,
+                    notBefore: now,
+                    claims: identity.Claims,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            return encodedJwt;
         }
 
         private ClaimsIdentity GetIdentity(string username, string password)
