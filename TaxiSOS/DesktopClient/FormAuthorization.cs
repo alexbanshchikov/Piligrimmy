@@ -1,15 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
 using System.Windows.Forms;
-using DataModel;
 
 namespace DesktopClient
 {
@@ -20,67 +13,54 @@ namespace DesktopClient
             InitializeComponent();
         }
 
+        private const string APP_PATH = "http://localhost:8080";
+        static string token;
+        static string idDriver;
+
         private void buttonAuthorize_Click(object sender, EventArgs e)
         {
-            Account account = new Account(); //TODO Переделать DataModel на библиотеку классов .NET Standart
+            string login = "4578965878";//textBoxLogin.Text;
+            string password = "111";//textBoxPassword.Text;
 
-            string username = textBoxLogin.Text;
-            string password = textBoxPassword.Text;
+            Dictionary<string, string> tokenDictionary = GetTokenDictionary(login, password);
 
-            //WebRequest request = WebRequest.Create("http://localhost:8080/token");
-            //WebRequest request = WebRequest.Create("https://translate.yandex.net/api/v1.5/tr.json/translate?"
-            //    + "key=trnsl.1.1.20170125T084253Z.cc366274cc3474e9.68d49c802348b39b5d677c856e0805c433b7618c"//Ключ
-            //    + "&text=" + s//Текст
-            //    + "&lang=" + language);//Язык
-
-
-
-            //Получаем ответ
-            //WebResponse response = request.GetResponse();
-            //--------------------
-            //---Распарсить JSON ответ. Я скачал фреймворк Json.NET
-            using (StreamReader stream = new StreamReader(response.GetResponseStream()))
-            {
-                string line;
-                if ((line = stream.ReadLine()) != null)
-                {
-                    //Translation translation = JsonConvert.DeserializeObject<Translation>(line);
-                    //s = "";
-                    //foreach (string str in translation.text)
-                    //{
-                    //    s += str;
-                    //}
-                }
-            }
-            //------------------
+            token = tokenDictionary["access_token"];
+            idDriver = tokenDictionary["id_Driver"];
         }
 
-        /*
-         var tokenKey = "accessToken";
-var clientKey = "id_Client";
-$('#submitLogin').click(function (e) {
-    e.preventDefault();
-    var loginData = {
-        grant_type: 'password',
-        username: $('#emailLogin').val(),
-        password: $('#passwordLogin').val()
-    };
+        Dictionary<string, string> GetTokenDictionary(string login, string password)
+        {
+            var pairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>( "grant_type", "password" ),
+                    new KeyValuePair<string, string>( "login", login ),
+                    new KeyValuePair<string, string> ( "password", password )
+                };
+            var content = new FormUrlEncodedContent(pairs);
 
-    $.ajax({
-        type: 'POST',
-        url: '/token',
-        data: loginData
-    }).success(function (data) {
-        $('.userName').text(data.username);
-        $('.id_client').text(data.id_Client);
+            using (var client = new HttpClient())
+            {
+                var response =
+                    client.PostAsync(APP_PATH + "/TokenDriver", content).Result;
+                var result = response.Content.ReadAsStringAsync().Result;
 
-        sessionStorage.setItem(tokenKey, data.access_token);
-        sessionStorage.setItem(clientKey, data.id_Client);
-        window.location.href = "/Index.html";
-    }).fail(function (data) {
-        console.log(data);
-    });
-});
-         */
+                // Десериализация полученного JSON-объекта
+                Dictionary<string, string> tokenDictionary =
+                    JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+                return tokenDictionary;
+            }
+        }
+
+        static HttpClient CreateClient(string accessToken = "")
+        {
+            var client = new HttpClient();
+            if (!string.IsNullOrWhiteSpace(accessToken))
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+            }
+            return client;
+        }
+
     }
 }
