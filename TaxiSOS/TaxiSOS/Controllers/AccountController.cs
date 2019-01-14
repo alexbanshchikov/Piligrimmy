@@ -99,6 +99,8 @@ namespace TaxiSOS.Controllers
                 id_Driver = idDriver
             };
 
+            // сериализация ответа
+            Response.ContentType = "application/json";
             await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
