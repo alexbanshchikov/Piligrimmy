@@ -12,14 +12,19 @@ namespace DesktopClient
 {
     public partial class FormAccount : Form
     {
-        public FormAccount()
+        public Dictionary<string, string> tokenDictionary;
+
+        public FormAccount(Dictionary<string, string> token)
         {
             InitializeComponent();
+            tokenDictionary = token;
         }
 
         private void buttonMap_Click(object sender, EventArgs e)
         {
-
+            FormMap fm = new FormMap(tokenDictionary);
+            fm.Show();
+            this.Close();
         }
 
         private void buttonAccount_Click(object sender, EventArgs e)

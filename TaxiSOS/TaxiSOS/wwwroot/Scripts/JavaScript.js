@@ -38,6 +38,16 @@ $('#ordering').click(function (e) {
                 $('#dialog').dialog();
                 document.getElementById('id1').innerHTML = "Ожидайте уведомление на электронную почту";
                 document.getElementById('ordering').innerText = "Отменить";
+                $.ajax({
+                    url: '/api/orders',
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        IdClient: sessionStorage.getItem("idClient"),
+                        ArrivalPoint: document.getElementById("ArrivalPoint").value,
+                        DestinationPoint: document.getElementById("DestinationPoint").value
+                    })
+                });
             }
         }
         else

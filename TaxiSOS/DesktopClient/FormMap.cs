@@ -3,6 +3,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -12,9 +13,11 @@ namespace DesktopClient
 {
     public partial class FormMap : Form
     {
-        public FormMap()
+        public Dictionary<string, string> tokenDictionary;
+        public FormMap(Dictionary<string, string> token)
         {
             InitializeComponent();
+            tokenDictionary = token;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -109,7 +112,9 @@ namespace DesktopClient
 
         private void buttonAccount_Click(object sender, EventArgs e)
         {
-
+            FormAccount fa = new FormAccount(tokenDictionary);
+            fa.Show();
+            this.Close();
         }
 
         private void buttonMap_Click(object sender, EventArgs e)

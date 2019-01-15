@@ -13,7 +13,7 @@ namespace DesktopClient
             InitializeComponent();
         }
 
-        private const string APP_PATH = "http://localhost:8080";
+        private const string APP_PATH = "http://localhost:53389";
         static string token;
         static string idDriver;
 
@@ -26,6 +26,10 @@ namespace DesktopClient
 
             token = tokenDictionary["access_token"];
             idDriver = tokenDictionary["id_Driver"];
+
+            FormMap fm = new FormMap(tokenDictionary);
+            fm.Show();
+            this.Visible = false;
         }
 
         Dictionary<string, string> GetTokenDictionary(string login, string password)
