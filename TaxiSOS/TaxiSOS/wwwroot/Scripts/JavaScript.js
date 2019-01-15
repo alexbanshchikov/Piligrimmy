@@ -39,20 +39,24 @@ $('#ordering').click(function (e) {
                 document.getElementById('id1').innerHTML = "Ожидайте уведомление на электронную почту";
                 document.getElementById('ordering').innerText = "Отменить";
                 $.ajax({
-                    url: '/api/orders',
+                    url: '/api/orders?id=' + sessionStorage.getItem("id_Client") + "&arrivalPoint=" +
+                        document.getElementById("ArrivalPoint").value + "&destinationPoint=" + document.getElementById("DestinationPoint").value,
                     type: 'POST',
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        IdClient: sessionStorage.getItem("idClient"),
-                        ArrivalPoint: document.getElementById("ArrivalPoint").value,
-                        DestinationPoint: document.getElementById("DestinationPoint").value
-                    })
+                    contentType: "application/json"
                 });
             }
         }
         else
         {
-            location.reload();
+            $.ajax({
+                url: '/api/orders/delete?id='+ sessionStorage.getItem("id_Client"),
+                type: 'GET',
+                contentType: "application/json",
+                success: function (result) {
+                    location.reload();
+                }
+            });
+            
         }
     }
     else

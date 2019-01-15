@@ -37,8 +37,13 @@ namespace TaxiSOS.Controllers
         }
 
         [HttpPost]
-        public void Create([FromBody]Orders order)
+        //  public void Create([FromBody]Orders order)
+        public void Create(Guid id,string arrivalPoint, string destinationPoint)
         {
+            Orders order = new Orders();
+            order.IdClient = id;
+            order.ArrivalPoint = arrivalPoint;
+            order.DestinationPoint = destinationPoint;
             order.OrderTime = DateTime.Now;
             order.Cost = Calculate(order.ArrivalPoint, order.DestinationPoint);
             order.IdDriver = os.FindDriver(_repoDriver);
@@ -53,13 +58,14 @@ namespace TaxiSOS.Controllers
                 _repoOrder.Update(order);
         }
 
-        [HttpDelete("{id}")]
+        [HttpGet("delete")]
         public void Delete(Guid id)
         {
-            Orders c = _repoOrder.FindById(id);
-            Drivers driver = _repoDriver.FindById(c.IdDriver);
+            var order = _repoOrder.Get().Where(or => or.IdClient == id && or.Status !=5).First();
+            Drivers driver = _repoDriver.FindById(order.IdDriver);
             driver.Status = 0;
-            _repoOrder.Remove(c);
+            _repoDriver.Update(driver);
+            _repoOrder.Remove(order);
         }
 
         /// <summary>
