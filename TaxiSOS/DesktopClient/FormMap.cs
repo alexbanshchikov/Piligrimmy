@@ -12,6 +12,9 @@ namespace DesktopClient
     {
         static Dictionary<string, string> tokenDictionary;
         static string idOrder;
+        static string arrivalPoint;
+        static string destinationPoint;
+        static string idClient;
         static double firstPoint;
         static double lastPoint;
         private const string APP_PATH = "http://localhost:53389";
@@ -53,10 +56,12 @@ namespace DesktopClient
                     {
                         if (key == "idOrder")
                             idOrder = orderDictionary[key];
-                        if (key == "")
-                            firstPoint = Convert.ToDouble(orderDictionary[key]);
-                        if (key == "")
-                            lastPoint = Convert.ToDouble(orderDictionary[key]);
+                        if (key == "arrivalPoint")
+                            arrivalPoint = orderDictionary[key];
+                        if (key == "destinationPoint")
+                            destinationPoint = orderDictionary[key];
+                        if (key == "idClient")
+                            idClient = orderDictionary[key];
                     }
 
                     DialogResult dialogResult = MessageBox.Show("Пункт отправления: " + orderDictionary["arrivalPoint"] + Environment.NewLine +
@@ -188,12 +193,5 @@ namespace DesktopClient
     }
 }
 
-        static string arrivalPoint;
-        static string destinationPoint;
-        static string idClient;
-                        if (key == "arrivalPoint")
-                            arrivalPoint = orderDictionary[key];
-                        if (key == "destinationPoint")
-                            destinationPoint = orderDictionary[key];
-                            idClient = orderDictionary[key];
-                        if (key == "idClient")
+
+                        
