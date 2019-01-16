@@ -101,7 +101,6 @@
             this.buttonGetRoute.TabIndex = 6;
             this.buttonGetRoute.Text = "Проложить маршрут";
             this.buttonGetRoute.UseVisualStyleBackColor = true;
-            this.buttonGetRoute.Visible = false;
             this.buttonGetRoute.Click += new System.EventHandler(this.buttonGetRoute_Click);
             // 
             // buttonOnPlace
@@ -112,7 +111,6 @@
             this.buttonOnPlace.TabIndex = 7;
             this.buttonOnPlace.Text = "На месте";
             this.buttonOnPlace.UseVisualStyleBackColor = true;
-            this.buttonOnPlace.Visible = false;
             this.buttonOnPlace.Click += new System.EventHandler(this.buttonOnPlace_Click);
             // 
             // FormMap

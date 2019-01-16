@@ -12,6 +12,8 @@ namespace DesktopClient
     {
         static Dictionary<string, string> tokenDictionary;
         static string idOrder;
+        static string arrivalPoint;
+        static string destinationPoint;
         static double firstPoint;
         static double lastPoint;
         private const string APP_PATH = "http://localhost:53389";
@@ -40,8 +42,7 @@ namespace DesktopClient
         {
             using (var client = new HttpClient())
             {
-                var response =
-                    client.GetAsync(APP_PATH + $"/api/Orders/CheckClient?idDriver={tokenDictionary["id_Driver"]}").Result;
+                var response = client.GetAsync(APP_PATH + $"/api/Orders/CheckClient?idDriver={tokenDictionary["id_Driver"]}").Result;
                 var result = response.Content.ReadAsStringAsync().Result;
                 if (result != "")
                 {
@@ -53,18 +54,33 @@ namespace DesktopClient
                     {
                         if (key == "idOrder")
                             idOrder = orderDictionary[key];
-                        if (key == "")
-                            firstPoint = Convert.ToDouble(orderDictionary[key]);
-                        if (key == "")
-                            lastPoint = Convert.ToDouble(orderDictionary[key]);
+                        if (key == "arrivalPoint")
+                            arrivalPoint = orderDictionary[key];
+                        if (key == "destinationPoint")
+                            destinationPoint = orderDictionary[key];
                     }
 
-                    timer.Stop();
-                    worker2 = new BackgroundWorker();
-                    worker2.DoWork += worker2_DoWork;
-                    System.Timers.Timer timer2 = new System.Timers.Timer(10000);
-                    timer2.Elapsed += timer2_Elapsed;
-                    timer2.Start();
+                    DialogResult dialogResult = MessageBox.Show("Пункт отправления: " + orderDictionary["arrivalPoint"] + Environment.NewLine +
+                                                                "Пункт назначения: "  + orderDictionary["destinationPoint"] + Environment.NewLine +
+                                                                "Стоимость: "         + orderDictionary["cost"],
+                        "Входящий заказ", MessageBoxButtons.YesNo);
+
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        timer.Stop();
+                        worker2 = new BackgroundWorker();
+                        worker2.DoWork += worker2_DoWork;
+                        System.Timers.Timer timer2 = new System.Timers.Timer(10000);
+                        timer2.Elapsed += timer2_Elapsed;
+                        timer2.Start();
+                    }
+                    else
+                    {
+                        client.GetAsync(APP_PATH + $"/api/Orders/DriverIgnore?idDriver={idOrder}");
+                        idOrder = "";
+                        arrivalPoint = "";
+                        destinationPoint = "";
+                    }               
                 }
             }
         }
@@ -87,8 +103,12 @@ namespace DesktopClient
                     // Десериализация полученного JSON-объекта
                     Dictionary<string, string> orderDictionary =
                     JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-                    //TODO MessageBox(Клиент отказался от поездки)
+
+                    MessageBox.Show("Клиент отказался от поездки", "Отмена заказа", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                     idOrder = "";
+                    arrivalPoint = "";
+                    destinationPoint = "";
                     firstPoint = 0;
                     lastPoint = 0;
                     timer2.Stop();
