@@ -144,6 +144,14 @@ namespace TaxiSOS.Controllers
                 return _repoDriver.FindById(order.IdDriver);
         }
 
+
+        [HttpGet("GetAllDriverOrder")]
+        public IEnumerable<Orders> GetAllDriverOrder(Guid idDriver)
+        {
+            var order = _repoOrder.Get().Where(dr => dr.IdDriver == idDriver && dr.Status == (int)Status.Success);
+            return order;
+        }
+
         /// <summary>
         /// Действие водителя: Проверяет, назначен ли он на заказ
         /// </summary>
