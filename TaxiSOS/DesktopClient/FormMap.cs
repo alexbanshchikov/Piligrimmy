@@ -51,8 +51,12 @@ namespace DesktopClient
 
                     foreach (var key in orderDictionary.Keys)
                     {
-                        if (key == "IdOrder")
-                            idOrder = orderDictionary[key];                        
+                        if (key == "idOrder")
+                            idOrder = orderDictionary[key];
+                        if (key == "")
+                            firstPoint = Convert.ToDouble(orderDictionary[key]);
+                        if (key == "")
+                            lastPoint = Convert.ToDouble(orderDictionary[key]);
                     }
 
                     timer.Stop();
@@ -71,7 +75,7 @@ namespace DesktopClient
                 worker2.RunWorkerAsync();
         }
 
-        void worker2_DoWork(object sender, DoWorkEventArgs e)
+        void worker2_DoWork(object sender, DoWorkEventArgs e)       //DeclineOrder
         {
             using (var client = new HttpClient())
             {
