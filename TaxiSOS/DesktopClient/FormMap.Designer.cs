@@ -166,6 +166,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormMap";
             this.Text = "Таксометр";
+            this.Load += new System.EventHandler(this.FormMap_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

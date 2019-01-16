@@ -67,31 +67,6 @@ namespace DesktopClient
             }
         }
 
-        void timer2_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            if (!worker2.IsBusy)
-                worker2.RunWorkerAsync();
-        }
-        void worker2_DoWork(object sender, DoWorkEventArgs e)
-        {
-            using (var client = new HttpClient())
-            {
-                var response =
-                    client.GetAsync(APP_PATH + $"/api/Orders/CheckDenyClient?idOrder={idOrder}&idDriver={tokenDictionary["id_Driver"]}").Result;
-                var result = response.Content.ReadAsStringAsync().Result;
-                if (result == "Клиент отказался от поездки")
-                {
-                    // Десериализация полученного JSON-объекта
-                        Dictionary<string, string> orderDictionary =
-                        JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-                        textBox1.Text = "Клиент отказался от поездки";
-                        idOrder = "";
-                      
-                    
-                }
-            }
-        }
-
         private async Task Form1_LoadAsync(object sender, EventArgs e)
         {
             //Выбор подложки
@@ -235,5 +210,66 @@ namespace DesktopClient
             fa.Show();
             this.Close();
         }
+
+        private void FormMap_Load(object sender, EventArgs e)
+        {
+            //Выбор подложки
+            gmap.MapProvider = GMap.NET.MapProviders.OpenStreetMapProvider.Instance;
+            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
+
+            //Установка положения на карте по названию объекта(объектов)
+            gmap.SetPositionByKeywords("Tomsk");
+
+            //Установка положения на карте по координатам
+            //gmap.Position = new PointLatLng(-25.966688, 32.580528);
+
+            //Создание и добавление маркера на карту
+            GMapOverlay markersOverlay = new GMapOverlay("markers");
+            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(-25.966688, 32.580528),
+              GMarkerGoogleType.green);
+            markersOverlay.Markers.Add(marker);
+            gmap.Overlays.Add(markersOverlay);
+
+            //Получение маршрута между двумя точками
+            PointLatLng start = new PointLatLng(56.4894541, 84.8685479); //56.4894541,84.8685479
+            PointLatLng end = new PointLatLng(54.969655, 82.6692233); //54.969655,82.6692233
+            MapRoute route = GMap.NET.MapProviders.OpenStreetMapProvider.Instance.GetRoute(
+              start, end, false, false, 13);
+
+            //Создание маршрута
+            GMapRoute r = new GMapRoute(route.Points, "My route");
+            r.Stroke.Width = 2;
+            r.Stroke.Color = Color.Red;
+
+            //Добавление маршрута на карту
+            GMapOverlay routesOverlay = new GMapOverlay("routes");
+            routesOverlay.Routes.Add(r);
+            gmap.Overlays.Add(routesOverlay);
+        }
     }
 }
+
+        void timer2_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!worker2.IsBusy)
+                worker2.RunWorkerAsync();
+        }
+        void worker2_DoWork(object sender, DoWorkEventArgs e)
+        {
+            using (var client = new HttpClient())
+            {
+                var response =
+                    client.GetAsync(APP_PATH + $"/api/Orders/CheckDenyClient?idOrder={idOrder}&idDriver={tokenDictionary["id_Driver"]}").Result;
+                var result = response.Content.ReadAsStringAsync().Result;
+                if (result == "Клиент отказался от поездки")
+                {
+                    // Десериализация полученного JSON-объекта
+                        Dictionary<string, string> orderDictionary =
+                        JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+                        textBox1.Text = "Клиент отказался от поездки";
+                        idOrder = "";
+                      
+                    
+                }
+            }
+        }
