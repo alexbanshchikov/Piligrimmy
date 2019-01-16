@@ -83,6 +83,19 @@ namespace TaxiSOS.Controllers
             return os.Calculate(From_, To_);
         }
 
+        [HttpGet("GetCoordinates")]
+        public string[] GetCoordinates(string From, string To)
+        {
+            string[] coordinates = new string[4];
+
+            string From_ = From.Replace(' ', '%');
+            string To_ = To.Replace(' ', '%');
+
+            os.Points(From_, out coordinates[0], out coordinates[1]);
+            os.Points(To_, out coordinates[2], out coordinates[3]);
+
+            return coordinates;
+        }
 
         /// <summary>
         /// Действие клиента: Проверяет отказ водителя от поездки или его статус

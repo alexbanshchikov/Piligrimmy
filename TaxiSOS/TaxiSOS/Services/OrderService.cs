@@ -51,7 +51,7 @@ namespace TaxiSOS.Services
         public Guid FindDriver(IRepository<Drivers> repoDriver)
         {
             _repo = repoDriver;
-             var driver = _repo.Get().Where(dr => dr.Status==0).First();
+            var driver = _repo.Get().Where(dr => dr.Status==0).First();
             driver.Status = 1;
             repoDriver.Update(driver);
             return driver.IdDriver;
