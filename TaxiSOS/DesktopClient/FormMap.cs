@@ -94,17 +94,17 @@ namespace DesktopClient
             routesOverlay.Routes.Add(r);
             gmap.Overlays.Add(routesOverlay);
 
-            await CreateProductAsync(textBox1);
+            await CheckOrderAsync(textBox1);
         }
 
-        async Task CreateProductAsync(TextBox textBox1)
+        async Task CheckOrderAsync(TextBox textBox1)
         {
             while (true)
             {
                 using (var client = new HttpClient())
                 {
                     var response =
-                        client.GetAsync(APP_PATH + $"/api/Orders/CheckClient?idDriver={tokenDictionary["access_token"]}").Result;
+                        client.GetAsync(APP_PATH + $"/api/Orders/CheckClient?idDriver={tokenDictionary["id_Driver"]}").Result;
                     var result = response.Content.ReadAsStringAsync().Result;
                     if (result == null)
                         continue;
@@ -116,7 +116,7 @@ namespace DesktopClient
 
                         foreach (var key in orderDictionary.Keys)
                         {
-                            textBox1.Text += key + orderDictionary[key] + Environment.NewLine;
+                            textBox1.Text += key + " " + orderDictionary[key] + Environment.NewLine;
                         }
                     }
                 }
@@ -128,7 +128,7 @@ namespace DesktopClient
             using (var client = new HttpClient())
             {
                 var response =
-                    client.GetAsync(APP_PATH + $"/api/Orders/CheckClient?idDriver={tokenDictionary["access_token"]}").Result;
+                    client.GetAsync(APP_PATH + $"/api/Orders/CheckClient?idDriver={tokenDictionary["id_Driver"]}").Result;
                 var result = response.Content.ReadAsStringAsync().Result;
 
                 Dictionary<string, string> orderDictionary =
@@ -138,27 +138,47 @@ namespace DesktopClient
             }
         }
 
-        
+
 
         private void buttonAcceptOrder_Click(object sender, EventArgs e)
         {
+            //здесь получить заказ
+
+            var pairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>( "newStatus", "2" ),
+                    new KeyValuePair<string, string> ( "order", ""/*order.IdOrder*/ )
+                };
+            var content = new FormUrlEncodedContent(pairs);
+
             using (var client = new HttpClient())
             {
                 var response =
-                    client.GetAsync(APP_PATH + $"/api/Orders/ChangeStatus?newStatus=2&idOrder={FormMap.tokenDictionary["access_token"]}").Result;
+                    client.PostAsync(APP_PATH + "/api/Orders/ChangeStatus", content).Result;
                 var result = response.Content.ReadAsStringAsync().Result;
 
                 // Десериализация полученного JSON-объекта
-                Dictionary<string, string> orderDictionary =
+                Dictionary<string, string> tokenDictionary =
                     JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
 
-                foreach (var key in orderDictionary.Keys)
-                {
-                    textBox1.Text += key + orderDictionary[key] + Environment.NewLine;
-                }
             }
         }
+        private void buttonIgnore_Click(object sender, EventArgs e)
+        {
+            //здесь получить заказ
 
+            var pairs = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>( "idOrder", ""/*order.IdOrder*/ )
+                };
+            var content = new FormUrlEncodedContent(pairs);
+
+            using (var client = new HttpClient())
+            {
+                var response =
+                    client.PostAsync(APP_PATH + "/api/Orders/DriverIgnore", content).Result;
+            }
+        }
         private void buttonOnPlace_Click(object sender, EventArgs e)
         {
 
@@ -169,10 +189,7 @@ namespace DesktopClient
 
         }
 
-        private void buttonIgnore_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void checkBoxBusy_CheckedChanged(object sender, EventArgs e)
         {
