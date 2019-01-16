@@ -36,7 +36,7 @@ namespace DesktopClient
                 worker.RunWorkerAsync();
         }
 
-        void worker_DoWork(object sender, DoWorkEventArgs e)
+        void worker_DoWork(object sender, DoWorkEventArgs e)        //ReceiveOrder
         {
             using (var client = new HttpClient())
             {
@@ -52,13 +52,15 @@ namespace DesktopClient
                     foreach (var key in orderDictionary.Keys)
                     {
                         if (key == "IdOrder")
-                            idOrder = orderDictionary[key];
-                        worker2 = new BackgroundWorker();
-                        worker2.DoWork += worker2_DoWork;
-                        System.Timers.Timer timer2 = new System.Timers.Timer(10000);
-                        timer2.Elapsed += timer2_Elapsed;
-                        timer2.Start();
+                            idOrder = orderDictionary[key];                        
                     }
+
+                    timer.Stop();
+                    worker2 = new BackgroundWorker();
+                    worker2.DoWork += worker2_DoWork;
+                    System.Timers.Timer timer2 = new System.Timers.Timer(10000);
+                    timer2.Elapsed += timer2_Elapsed;
+                    timer2.Start();
                 }
             }
         }
@@ -91,54 +93,6 @@ namespace DesktopClient
             }
         }
 
-        private void ReceiveOrder()
-        {
-            using (var client = new HttpClient())
-            {
-                var response =
-                    client.GetAsync(APP_PATH + $"/api/Orders/CheckClient?idDriver={tokenDictionary["id_Driver"]}").Result;
-                var result = response.Content.ReadAsStringAsync().Result;
-
-                Dictionary<string, string> orderDictionary =
-                    JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-            }
-        }
-
-        private void buttonAcceptOrder_Click(object sender, EventArgs e)
-        {
-            var pairs = new List<KeyValuePair<string, string>>
-                {
-                    new KeyValuePair<string, string>( "newStatus", "2" ),
-                    new KeyValuePair<string, string> ( "order", idOrder )
-                };
-            var content = new FormUrlEncodedContent(pairs);
-
-            using (var client = new HttpClient())
-            {
-                var response =
-                    client.PostAsync(APP_PATH + "/api/Orders/ChangeStatus", content).Result;
-                var result = response.Content.ReadAsStringAsync().Result;
-
-                // Десериализация полученного JSON-объекта
-                Dictionary<string, string> tokenDictionary =
-                    JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-
-            }
-        }
-        private void buttonIgnore_Click(object sender, EventArgs e)
-        {
-            var pairs = new List<KeyValuePair<string, string>>
-                {
-                    new KeyValuePair<string, string>( "idOrder", idOrder )
-                };
-            var content = new FormUrlEncodedContent(pairs);
-
-            using (var client = new HttpClient())
-            {
-                var response =
-                    client.PostAsync(APP_PATH + "/api/Orders/DriverIgnore", content).Result;
-            }
-        }
         private void buttonOnPlace_Click(object sender, EventArgs e)
         {
 
