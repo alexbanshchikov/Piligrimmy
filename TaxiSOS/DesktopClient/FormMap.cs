@@ -1,17 +1,10 @@
-﻿using GMap.NET;
-using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.IO;
-using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Timers;
+using System.Windows.Forms;
 
 namespace DesktopClient
 {
