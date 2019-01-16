@@ -19,9 +19,13 @@ namespace DesktopClient
     {
         static Dictionary<string, string> tokenDictionary;
         static string idOrder;
+        static double firstPoint;
+        static double lastPoint;
         private const string APP_PATH = "http://localhost:53389";
         private BackgroundWorker worker;
         private BackgroundWorker worker2;
+        private System.Timers.Timer timer;
+        private System.Timers.Timer timer2;
 
         public FormMap(Dictionary<string, string> token)
         {
@@ -29,7 +33,7 @@ namespace DesktopClient
             tokenDictionary = token;
             worker = new BackgroundWorker();
             worker.DoWork += worker_DoWork;
-            System.Timers.Timer timer = new System.Timers.Timer(10000);
+            timer = new System.Timers.Timer(10000);
             timer.Elapsed += timer_Elapsed;
             timer.Start();
         }
@@ -54,79 +58,48 @@ namespace DesktopClient
 
                     foreach (var key in orderDictionary.Keys)
                     {
-                        textBox1.Text += key + orderDictionary[key] + Environment.NewLine;
-                        if (key == "IdOrder")
+                        if (key == "idOrder")
                             idOrder = orderDictionary[key];
-                        worker2 = new BackgroundWorker();
-                        worker2.DoWork += worker2_DoWork;
-                        System.Timers.Timer timer2 = new System.Timers.Timer(10000);
-                        timer2.Elapsed += timer2_Elapsed;
-                        timer2.Start();
+                        if (key == "")
+                            firstPoint = Convert.ToDouble(orderDictionary[key]);
+                        if (key == "")
+                            lastPoint = Convert.ToDouble(orderDictionary[key]);
                     }
+
+                    timer.Stop();
+                    worker2 = new BackgroundWorker();
+                    worker2.DoWork += worker2_DoWork;
+                    timer2 = new System.Timers.Timer(10000);
+                    timer2.Elapsed += timer2_Elapsed;
+                    timer2.Start();
                 }
             }
         }
 
-        private async Task Form1_LoadAsync(object sender, EventArgs e)
+        void timer2_Elapsed(object sender, ElapsedEventArgs e)
         {
-            //Выбор подложки
-            gmap.MapProvider = GMap.NET.MapProviders.OpenStreetMapProvider.Instance;
-            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
-
-            //Установка положения на карте по названию объекта(объектов)
-            gmap.SetPositionByKeywords("Tomsk");
-
-            //Установка положения на карте по координатам
-            //gmap.Position = new PointLatLng(-25.966688, 32.580528);
-
-            //Создание и добавление маркера на карту
-            GMapOverlay markersOverlay = new GMapOverlay("markers");
-            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(-25.966688, 32.580528),
-              GMarkerGoogleType.green);
-            markersOverlay.Markers.Add(marker);
-            gmap.Overlays.Add(markersOverlay);
-
-            //Получение маршрута между двумя точками
-            PointLatLng start = new PointLatLng(56.4894541, 84.8685479); //56.4894541,84.8685479
-            PointLatLng end = new PointLatLng(54.969655, 82.6692233); //54.969655,82.6692233
-            MapRoute route = GMap.NET.MapProviders.OpenStreetMapProvider.Instance.GetRoute(
-              start, end, false, false, 13);
-
-            //Создание маршрута
-            GMapRoute r = new GMapRoute(route.Points, "My route");
-            r.Stroke.Width = 2;
-            r.Stroke.Color = Color.Red;
-
-            //Добавление маршрута на карту
-            GMapOverlay routesOverlay = new GMapOverlay("routes");
-            routesOverlay.Routes.Add(r);
-            gmap.Overlays.Add(routesOverlay);
-
-            await CheckOrderAsync(textBox1);
+            if (!worker2.IsBusy)
+                worker2.RunWorkerAsync();
         }
 
-        async Task CheckOrderAsync(TextBox textBox1)
+        void worker2_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (true)
+            using (var client = new HttpClient())
             {
-                using (var client = new HttpClient())
+                var response =
+                    client.GetAsync(APP_PATH + $"/api/Orders/CheckDenyClient?idOrder={idOrder}&idDriver={tokenDictionary["id_Driver"]}").Result;
+                var result = response.Content.ReadAsStringAsync().Result;
+                if (result != "")
                 {
-                    var response =
-                        client.GetAsync(APP_PATH + $"/api/Orders/CheckClient?idDriver={tokenDictionary["id_Driver"]}").Result;
-                    var result = response.Content.ReadAsStringAsync().Result;
-                    if (result == null)
-                        continue;
-                    else
-                    {
-                        // Десериализация полученного JSON-объекта
-                        Dictionary<string, string> orderDictionary =
-                            JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-
-                        foreach (var key in orderDictionary.Keys)
-                        {
-                            textBox1.Text += key + " " + orderDictionary[key] + Environment.NewLine;
-                        }
-                    }
+                    // Десериализация полученного JSON-объекта
+                    Dictionary<string, string> orderDictionary =
+                    JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+                    //TODO MessageBox(Клиент отказался от поездки)
+                    idOrder = "";
+                    firstPoint = 0;
+                    lastPoint = 0;
+                    timer2.Stop();
+                    timer.Start();
                 }
             }
         }
@@ -141,21 +114,15 @@ namespace DesktopClient
 
                 Dictionary<string, string> orderDictionary =
                     JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-
-
             }
         }
 
-
-
         private void buttonAcceptOrder_Click(object sender, EventArgs e)
         {
-            //здесь получить заказ
-
             var pairs = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>( "newStatus", "2" ),
-                    new KeyValuePair<string, string> ( "order", ""/*order.IdOrder*/ )
+                    new KeyValuePair<string, string> ( "order", idOrder )
                 };
             var content = new FormUrlEncodedContent(pairs);
 
@@ -173,11 +140,9 @@ namespace DesktopClient
         }
         private void buttonIgnore_Click(object sender, EventArgs e)
         {
-            //здесь получить заказ
-
             var pairs = new List<KeyValuePair<string, string>>
                 {
-                    new KeyValuePair<string, string>( "idOrder", ""/*order.IdOrder*/ )
+                    new KeyValuePair<string, string>( "idOrder", idOrder )
                 };
             var content = new FormUrlEncodedContent(pairs);
 
@@ -196,8 +161,6 @@ namespace DesktopClient
         {
 
         }
-
-
 
         private void checkBoxBusy_CheckedChanged(object sender, EventArgs e)
         {
@@ -223,15 +186,17 @@ namespace DesktopClient
             //Установка положения на карте по координатам
             //gmap.Position = new PointLatLng(-25.966688, 32.580528);
 
+            //МАРКЕР
             //Создание и добавление маркера на карту
-            GMapOverlay markersOverlay = new GMapOverlay("markers");
+            /*GMapOverlay markersOverlay = new GMapOverlay("markers");
             GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(-25.966688, 32.580528),
               GMarkerGoogleType.green);
             markersOverlay.Markers.Add(marker);
-            gmap.Overlays.Add(markersOverlay);
+            gmap.Overlays.Add(markersOverlay);*/
 
+            //МАРШРУТ
             //Получение маршрута между двумя точками
-            PointLatLng start = new PointLatLng(56.4894541, 84.8685479); //56.4894541,84.8685479
+            /*PointLatLng start = new PointLatLng(56.4894541, 84.8685479); //56.4894541,84.8685479
             PointLatLng end = new PointLatLng(54.969655, 82.6692233); //54.969655,82.6692233
             MapRoute route = GMap.NET.MapProviders.OpenStreetMapProvider.Instance.GetRoute(
               start, end, false, false, 13);
@@ -244,32 +209,7 @@ namespace DesktopClient
             //Добавление маршрута на карту
             GMapOverlay routesOverlay = new GMapOverlay("routes");
             routesOverlay.Routes.Add(r);
-            gmap.Overlays.Add(routesOverlay);
+            gmap.Overlays.Add(routesOverlay);*/
         }
     }
 }
-
-        void timer2_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            if (!worker2.IsBusy)
-                worker2.RunWorkerAsync();
-        }
-        void worker2_DoWork(object sender, DoWorkEventArgs e)
-        {
-            using (var client = new HttpClient())
-            {
-                var response =
-                    client.GetAsync(APP_PATH + $"/api/Orders/CheckDenyClient?idOrder={idOrder}&idDriver={tokenDictionary["id_Driver"]}").Result;
-                var result = response.Content.ReadAsStringAsync().Result;
-                if (result == "Клиент отказался от поездки")
-                {
-                    // Десериализация полученного JSON-объекта
-                        Dictionary<string, string> orderDictionary =
-                        JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-                        textBox1.Text = "Клиент отказался от поездки";
-                        idOrder = "";
-                      
-                    
-                }
-            }
-        }

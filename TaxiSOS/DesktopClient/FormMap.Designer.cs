@@ -32,11 +32,8 @@
             this.checkBoxBusy = new System.Windows.Forms.CheckBox();
             this.buttonMap = new System.Windows.Forms.Button();
             this.buttonAccount = new System.Windows.Forms.Button();
-            this.buttonIgnore = new System.Windows.Forms.Button();
-            this.buttonAcceptOrder = new System.Windows.Forms.Button();
             this.buttonGetRoute = new System.Windows.Forms.Button();
             this.buttonOnPlace = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // gmap
@@ -61,7 +58,7 @@
             this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gmap.ShowTileGridLines = false;
-            this.gmap.Size = new System.Drawing.Size(360, 502);
+            this.gmap.Size = new System.Drawing.Size(360, 423);
             this.gmap.TabIndex = 0;
             this.gmap.Zoom = 5D;
             // 
@@ -96,31 +93,9 @@
             this.buttonAccount.UseVisualStyleBackColor = true;
             this.buttonAccount.Click += new System.EventHandler(this.buttonAccount_Click);
             // 
-            // buttonIgnore
-            // 
-            this.buttonIgnore.Location = new System.Drawing.Point(276, 52);
-            this.buttonIgnore.Name = "buttonIgnore";
-            this.buttonIgnore.Size = new System.Drawing.Size(96, 23);
-            this.buttonIgnore.TabIndex = 4;
-            this.buttonIgnore.Text = "Игнорировать";
-            this.buttonIgnore.UseVisualStyleBackColor = true;
-            this.buttonIgnore.Visible = false;
-            this.buttonIgnore.Click += new System.EventHandler(this.buttonIgnore_Click);
-            // 
-            // buttonAcceptOrder
-            // 
-            this.buttonAcceptOrder.Location = new System.Drawing.Point(292, 474);
-            this.buttonAcceptOrder.Name = "buttonAcceptOrder";
-            this.buttonAcceptOrder.Size = new System.Drawing.Size(80, 80);
-            this.buttonAcceptOrder.TabIndex = 5;
-            this.buttonAcceptOrder.Text = "Принять заказ";
-            this.buttonAcceptOrder.UseVisualStyleBackColor = true;
-            this.buttonAcceptOrder.Visible = false;
-            this.buttonAcceptOrder.Click += new System.EventHandler(this.buttonAcceptOrder_Click);
-            // 
             // buttonGetRoute
             // 
-            this.buttonGetRoute.Location = new System.Drawing.Point(12, 474);
+            this.buttonGetRoute.Location = new System.Drawing.Point(12, 481);
             this.buttonGetRoute.Name = "buttonGetRoute";
             this.buttonGetRoute.Size = new System.Drawing.Size(180, 80);
             this.buttonGetRoute.TabIndex = 6;
@@ -131,7 +106,7 @@
             // 
             // buttonOnPlace
             // 
-            this.buttonOnPlace.Location = new System.Drawing.Point(192, 474);
+            this.buttonOnPlace.Location = new System.Drawing.Point(192, 481);
             this.buttonOnPlace.Name = "buttonOnPlace";
             this.buttonOnPlace.Size = new System.Drawing.Size(180, 80);
             this.buttonOnPlace.TabIndex = 7;
@@ -140,29 +115,17 @@
             this.buttonOnPlace.Visible = false;
             this.buttonOnPlace.Click += new System.EventHandler(this.buttonOnPlace_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(12, 474);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(280, 80);
-            this.textBox1.TabIndex = 8;
-            this.textBox1.Visible = false;
-            // 
             // FormMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 562);
-            this.Controls.Add(this.buttonIgnore);
             this.Controls.Add(this.buttonAccount);
             this.Controls.Add(this.buttonMap);
             this.Controls.Add(this.checkBoxBusy);
             this.Controls.Add(this.buttonGetRoute);
             this.Controls.Add(this.buttonOnPlace);
-            this.Controls.Add(this.buttonAcceptOrder);
             this.Controls.Add(this.gmap);
-            this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormMap";
             this.Text = "Таксометр";
@@ -178,11 +141,8 @@
         private System.Windows.Forms.CheckBox checkBoxBusy;
         private System.Windows.Forms.Button buttonMap;
         private System.Windows.Forms.Button buttonAccount;
-        private System.Windows.Forms.Button buttonIgnore;
-        private System.Windows.Forms.Button buttonAcceptOrder;
         private System.Windows.Forms.Button buttonGetRoute;
         private System.Windows.Forms.Button buttonOnPlace;
-        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
