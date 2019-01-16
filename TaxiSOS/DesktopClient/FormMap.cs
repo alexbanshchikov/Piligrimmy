@@ -4,12 +4,14 @@ using GMap.NET.WindowsForms.Markers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace DesktopClient
 {
@@ -18,10 +20,43 @@ namespace DesktopClient
         static Dictionary<string, string> tokenDictionary;
         static string idOrder;
         private const string APP_PATH = "http://localhost:53389";
+        private BackgroundWorker worker;
+
         public FormMap(Dictionary<string, string> token)
         {
             InitializeComponent();
             tokenDictionary = token;
+            worker = new BackgroundWorker();
+            worker.DoWork += worker_DoWork;
+            System.Timers.Timer timer = new System.Timers.Timer(1000);
+            timer.Elapsed += timer_Elapsed;
+            timer.Start();
+        }
+        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!worker.IsBusy)
+                worker.RunWorkerAsync();
+        }
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            using (var client = new HttpClient())
+            {
+                var response =
+                    client.GetAsync(APP_PATH + $"/api/Orders/CheckClient?idDriver={tokenDictionary["id_Driver"]}").Result;
+                var result = response.Content.ReadAsStringAsync().Result;
+                if (result != "")
+                {
+                    // Десериализация полученного JSON-объекта
+                    Dictionary<string, string> orderDictionary =
+                        JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+
+                    foreach (var key in orderDictionary.Keys)
+                    {
+                        textBox1.Text += key + orderDictionary[key] + Environment.NewLine;
+                    }
+                }
+            }
         }
 
         private async Task Form1_LoadAsync(object sender, EventArgs e)

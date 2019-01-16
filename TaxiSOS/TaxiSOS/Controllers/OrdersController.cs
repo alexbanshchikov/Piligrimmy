@@ -149,19 +149,29 @@ namespace TaxiSOS.Controllers
         [HttpGet("CheckClient")]
         public Orders CheckClient(Guid idDriver)
         {
-            var order = _repoOrder.Get().Where(dr => dr.IdDriver == idDriver && dr.Status == (int)Status.DriverWithoutAgree).First();
-            if (order != null)
+            try
             {
+                var order = _repoOrder.Get().Where(dr => dr.IdDriver == idDriver && dr.Status == (int)Status.DriverWithoutAgree).First();
+                order.Status = 6;
+                _repoOrder.Update(order);
                 return order;
+                
             }
-            else return null;
+            catch
+            {
+                return null;
+            }
+
         }
 
         [HttpGet("DriverIgnore")]
         public void DriverIgnore(Guid idOrder)
         {
             var order = _repoOrder.FindById(idOrder);
+            var driver = _repoDriver.FindById(order.IdDriver);
             order.IdDriver = os.FindDriver(_repoDriver);
+            driver.Status = 0;
+            _repoDriver.Update(driver);
             _repoOrder.Update(order);
         }
 
