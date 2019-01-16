@@ -21,6 +21,7 @@ namespace DesktopClient
         static string idOrder;
         private const string APP_PATH = "http://localhost:53389";
         private BackgroundWorker worker;
+        private BackgroundWorker worker2;
 
         public FormMap(Dictionary<string, string> token)
         {
@@ -28,7 +29,7 @@ namespace DesktopClient
             tokenDictionary = token;
             worker = new BackgroundWorker();
             worker.DoWork += worker_DoWork;
-            System.Timers.Timer timer = new System.Timers.Timer(1000);
+            System.Timers.Timer timer = new System.Timers.Timer(10000);
             timer.Elapsed += timer_Elapsed;
             timer.Start();
         }
@@ -54,7 +55,39 @@ namespace DesktopClient
                     foreach (var key in orderDictionary.Keys)
                     {
                         textBox1.Text += key + orderDictionary[key] + Environment.NewLine;
+                        if (key == "IdOrder")
+                            idOrder = orderDictionary[key];
+                        worker2 = new BackgroundWorker();
+                        worker2.DoWork += worker2_DoWork;
+                        System.Timers.Timer timer2 = new System.Timers.Timer(10000);
+                        timer2.Elapsed += timer2_Elapsed;
+                        timer2.Start();
                     }
+                }
+            }
+        }
+
+        void timer2_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!worker2.IsBusy)
+                worker2.RunWorkerAsync();
+        }
+        void worker2_DoWork(object sender, DoWorkEventArgs e)
+        {
+            using (var client = new HttpClient())
+            {
+                var response =
+                    client.GetAsync(APP_PATH + $"/api/Orders/CheckDenyClient?idOrder={idOrder}&idDriver={tokenDictionary["id_Driver"]}").Result;
+                var result = response.Content.ReadAsStringAsync().Result;
+                if (result == "Клиент отказался от поездки")
+                {
+                    // Десериализация полученного JSON-объекта
+                        Dictionary<string, string> orderDictionary =
+                        JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+                        textBox1.Text = "Клиент отказался от поездки";
+                        idOrder = "";
+                      
+                    
                 }
             }
         }

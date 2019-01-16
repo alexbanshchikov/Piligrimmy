@@ -13,7 +13,8 @@ namespace DataModel.Enums
             DriverOnWay        = 2,
             AwaitingClient     = 3,
             ClientOnWay        = 4,
-            Success            = 5
+            Success            = 5,
+            DriverWithoutAgreeSended = 6
         }
     }
 }

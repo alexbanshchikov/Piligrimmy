@@ -114,11 +114,14 @@ namespace TaxiSOS.Controllers
         /// <param Id заказа="idOrder"></param>
         /// <returns>Состояние клиента</returns>
         [HttpGet("CheckDenyClient")]
-        public string CheckDenyClient(Guid idOrder)
+        public string CheckDenyClient(Guid idOrder, Guid idDriver)
         {
             Orders order = _repoOrder.FindById(idOrder);
             if (order is null)
             {
+                var driver = _repoDriver.FindById(idDriver);
+                driver.Status = 0;
+                _repoDriver.Update(driver);
                 return "Клиент отказался от поездки";
             }
             else return null;
