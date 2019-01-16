@@ -85,7 +85,6 @@
             this.buttonMap.TabIndex = 2;
             this.buttonMap.Text = "Главная";
             this.buttonMap.UseVisualStyleBackColor = true;
-            this.buttonMap.Click += new System.EventHandler(this.buttonMap_Click);
             // 
             // buttonAccount
             // 
@@ -167,7 +166,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormMap";
             this.Text = "Таксометр";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

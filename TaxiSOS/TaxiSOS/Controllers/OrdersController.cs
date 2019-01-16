@@ -121,7 +121,7 @@ namespace TaxiSOS.Controllers
             {
                 return "Клиент отказался от поездки";
             }
-            else return null ;
+            else return null;
         }
 
         /// <summary>
@@ -132,11 +132,11 @@ namespace TaxiSOS.Controllers
         [HttpGet("CheckDriver")]
         public Drivers CheckDriver(Guid idOrder)
         {
-            var order = _repoOrder.FindById(idOrder);         
+            var order = _repoOrder.FindById(idOrder);
             if (order.Status == (int)Status.DriverWithoutAgree)
             {
                 return null;
-            } 
+            }
             else
                 return _repoDriver.FindById(order.IdDriver);
         }
@@ -165,6 +165,12 @@ namespace TaxiSOS.Controllers
             _repoOrder.Update(order);
         }
 
+        /// <summary>
+        /// Смена статуса заказа
+        /// #Водитель принял заказ
+        /// </summary>
+        /// <param name="newStatus"></param>
+        /// <param name="idOrder"></param>
         [HttpGet("ChangeStatus")]
         public void ChangeStatus(int newStatus, Guid idOrder)
         {
