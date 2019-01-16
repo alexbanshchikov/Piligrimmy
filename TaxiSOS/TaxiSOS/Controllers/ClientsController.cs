@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DataModel;
 using DataModel.Models;
 using Microsoft.AspNetCore.Mvc;
+using TaxiSOS.Services;
 
 namespace TaxiSOS.Controllers
 {
@@ -11,10 +13,13 @@ namespace TaxiSOS.Controllers
     public class ClientsController : Controller
     {
         private readonly IRepository<Clients> _repo = null;
+        EmailService em = new EmailService();
+
         public ClientsController(IRepository<Clients> repo)
         {
             _repo = repo;
         }
+
 
         [HttpGet]
         public IEnumerable<Clients> Get()
@@ -48,6 +53,13 @@ namespace TaxiSOS.Controllers
             _repo.Remove(c);
         }
 
-       
+
+        [HttpGet("SendMessageFinish")]
+        public void SendMessage(Guid id)
+        {
+            var client = _repo.FindById(id);
+            em.SendEmailAsync(client.Email, "TaxiSOS", "Водитель на месте");
+        }
+
     }
 }

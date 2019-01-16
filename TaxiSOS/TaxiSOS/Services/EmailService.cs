@@ -6,7 +6,7 @@ namespace TaxiSOS.Services
 {
     public class EmailService
     {
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public void SendEmailAsync(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
 
@@ -20,11 +20,11 @@ namespace TaxiSOS.Services
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync("smtp.yandex.ru", 25, false);
-                await client.AuthenticateAsync("login@yandex.ru", "password");
-                await client.SendAsync(emailMessage);
+                 client.ConnectAsync("smtp.yandex.ru", 25, false);
+                 client.AuthenticateAsync("login@yandex.ru", "password");
+                 client.SendAsync(emailMessage);
 
-                await client.DisconnectAsync(true);
+                 client.DisconnectAsync(true);
             }
         }
     }

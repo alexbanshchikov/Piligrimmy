@@ -12,8 +12,6 @@ namespace DesktopClient
     {
         static Dictionary<string, string> tokenDictionary;
         static string idOrder;
-        static string arrivalPoint;
-        static string destinationPoint;
         static double firstPoint;
         static double lastPoint;
         private const string APP_PATH = "http://localhost:53389";
@@ -25,6 +23,7 @@ namespace DesktopClient
         public FormMap(Dictionary<string, string> token)
         {
             InitializeComponent();
+            idOrder = "";
             tokenDictionary = token;
             worker = new BackgroundWorker();
             worker.DoWork += worker_DoWork;
@@ -54,10 +53,10 @@ namespace DesktopClient
                     {
                         if (key == "idOrder")
                             idOrder = orderDictionary[key];
-                        if (key == "arrivalPoint")
-                            arrivalPoint = orderDictionary[key];
-                        if (key == "destinationPoint")
-                            destinationPoint = orderDictionary[key];
+                        if (key == "")
+                            firstPoint = Convert.ToDouble(orderDictionary[key]);
+                        if (key == "")
+                            lastPoint = Convert.ToDouble(orderDictionary[key]);
                     }
 
                     DialogResult dialogResult = MessageBox.Show("Пункт отправления: " + orderDictionary["arrivalPoint"] + Environment.NewLine +
@@ -119,7 +118,17 @@ namespace DesktopClient
 
         private void buttonOnPlace_Click(object sender, EventArgs e)
         {
+            if (idOrder != "")
+            {
+                using (var client = new HttpClient())
+                {
+                    var response =
+                        client.GetAsync(APP_PATH + $"/api/Clients/SendMessageFinish?id={idClient}").Result;
+                   // var result = response.Content.ReadAsStringAsync().Result;
+                    
+                }
 
+            }
         }
 
         private void buttonGetRoute_Click(object sender, EventArgs e)
@@ -178,3 +187,13 @@ namespace DesktopClient
         }
     }
 }
+
+        static string arrivalPoint;
+        static string destinationPoint;
+        static string idClient;
+                        if (key == "arrivalPoint")
+                            arrivalPoint = orderDictionary[key];
+                        if (key == "destinationPoint")
+                            destinationPoint = orderDictionary[key];
+                            idClient = orderDictionary[key];
+                        if (key == "idClient")

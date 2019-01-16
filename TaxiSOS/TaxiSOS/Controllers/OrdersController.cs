@@ -14,6 +14,7 @@ namespace TaxiSOS.Controllers
     public class OrdersController : Controller
     {
         OrderService os = new OrderService();
+        
         private readonly IRepository<Drivers> _repoDriver = null;
         private readonly IRepository<Orders> _repoOrder = null;
         private readonly IRepository<PersonalAccount> _repoPA = null;
@@ -81,6 +82,7 @@ namespace TaxiSOS.Controllers
             string To_ = To.Replace(' ', '%');
             return os.Calculate(From_, To_);
         }
+
 
         /// <summary>
         /// Действие клиента: Проверяет отказ водителя от поездки или его статус
