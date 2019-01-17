@@ -19,8 +19,8 @@ namespace DesktopClient
         static string arrivalPoint;
         static string destinationPoint;
         static string idClient;
-        static double[] firstPoint = new double[2];
-        static double[] lastPoint = new double[2];
+        static double[] firstPoint = new double[2]; //56.48277 84.998985
+        static double[] lastPoint = new double[2];  //56.480278 85.000206
         private const string APP_PATH = "http://localhost:53389";
         private BackgroundWorker worker;
         private BackgroundWorker worker2;
@@ -86,7 +86,7 @@ namespace DesktopClient
                     }
                     else
                     {
-                        client.GetAsync(APP_PATH + $"/api/Orders/DriverIgnore?idDriver={idOrder}");
+                        client.GetAsync(APP_PATH + $"/api/Orders/DriverIgnore?idOrder={idOrder}");
                         idOrder = "";
                         arrivalPoint = "";
                         destinationPoint = "";
@@ -95,7 +95,7 @@ namespace DesktopClient
             }
         }
 
-        private void GetPoints(string From, string To)
+        private void GetPoints(string From, string To)      //TODO Уебски определяется улица
         {
             using (var client = new HttpClient())
             {
@@ -130,7 +130,7 @@ namespace DesktopClient
                 {
                     MessageBox.Show("Клиент отказался от поездки", "Отмена заказа", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                    idOrder = "";
+                    idOrder = "";               //TODO Вынести в отдельный метод
                     arrivalPoint = "";
                     destinationPoint = "";
                     firstPoint[0] = 0;
@@ -143,6 +143,7 @@ namespace DesktopClient
             }
         }
 
+        //TODO Изменять тексст в кнопке после нажатия, в зависимости от текста, выполнять разные штуки
         private void buttonOnPlace_Click(object sender, EventArgs e)
         {
             if (idOrder != "")
@@ -191,7 +192,7 @@ namespace DesktopClient
 
         private void checkBoxBusy_CheckedChanged(object sender, EventArgs e)
         {
-
+            //TODO Запрос на сервер с изменением статуса
         }
 
         private void buttonAccount_Click(object sender, EventArgs e)

@@ -60,7 +60,7 @@
             this.gmap.ShowTileGridLines = false;
             this.gmap.Size = new System.Drawing.Size(360, 423);
             this.gmap.TabIndex = 0;
-            this.gmap.Zoom = 5D;
+            this.gmap.Zoom = 10D;
             // 
             // checkBoxBusy
             // 
