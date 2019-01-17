@@ -146,7 +146,7 @@ namespace DesktopClient
                 }
             }
         }
-
+        //HUINYA
         //TODO Изменять тексст в кнопке после нажатия, в зависимости от текста, выполнять разные штуки
         private void buttonOnPlace_Click(object sender, EventArgs e)
         {
