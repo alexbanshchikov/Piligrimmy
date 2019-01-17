@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DataModel;
 using DataModel.Models;
@@ -13,11 +14,16 @@ namespace TaxiSOS.Controllers
     public class ClientsController : Controller
     {
         private readonly IRepository<Clients> _repo = null;
+        private readonly IRepository<Drivers> _repoDriver = null;
+        private readonly IRepository<Cars> _repoCars = null;
+
         EmailService em = new EmailService();
 
-        public ClientsController(IRepository<Clients> repo)
+        public ClientsController(IRepository<Clients> repo, IRepository<Drivers> repoDriver, IRepository<Cars> repoCars)
         {
             _repo = repo;
+            _repoDriver = repoDriver;
+            _repoCars = repoCars;
         }
 
 
@@ -59,6 +65,14 @@ namespace TaxiSOS.Controllers
         {
             var client = _repo.FindById(id);
             em.SendEmailAsync(client.Email, "TaxiSOS", "Водитель на месте");
+        }
+
+        [HttpGet("SendMessageAssigned")]
+        public void SendMessageAssigned(Guid id, Guid idDriver)
+        {
+            var client = _repo.FindById(id);
+            var cars = _repoCars.Get().Where(ca => ca.IdDriver == idDriver).First();
+            em.SendEmailAsync(client.Email, "TaxiSOS", $"Водитель назначен. К вам прибудет {cars.Color} {cars.Mark} с номером {cars.RegistrationNumber}");
         }
 
     }

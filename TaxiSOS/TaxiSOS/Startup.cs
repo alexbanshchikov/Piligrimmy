@@ -59,6 +59,7 @@ namespace TaxiSOS
             // Could be used to register more types
             container.RegisterType<IRepository<Clients>, MSSQLRepo<Clients>>();
             container.RegisterType<IRepository<Drivers>, MSSQLRepo<Drivers>>();
+            container.RegisterType<IRepository<Cars>, MSSQLRepo<Cars>>();
             container.RegisterType<IRepository<Orders>, MSSQLRepo<Orders>>();
             container.RegisterType<IRepository<Cards>, MSSQLRepo<Cards>>();
             container.RegisterType<IRepository<PersonalAccount>, MSSQLRepo<PersonalAccount>>();

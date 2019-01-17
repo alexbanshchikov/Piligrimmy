@@ -215,6 +215,15 @@ namespace TaxiSOS.Controllers
             _repoOrder.Update(order);
         }
 
+
+        [HttpGet("ChangeStatusDriver")]
+        public void ChangeStatusDriver(int newStatus, Guid idDriver)
+        {
+            var driver = _repoDriver.FindById(idDriver);
+            driver.Status = newStatus;
+            _repoDriver.Update(driver);
+        }
+
         [HttpGet("TopUpBalance")]
         public void TopUpBalance(Guid idOrder, Guid idDriver)
         {

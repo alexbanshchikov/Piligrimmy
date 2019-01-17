@@ -1,6 +1,7 @@
 ﻿using MimeKit;
-using MailKit.Net.Smtp;
 using System.Threading.Tasks;
+using System.Net.Mail;
+using System.Net;
 
 namespace TaxiSOS.Services
 {
@@ -8,24 +9,25 @@ namespace TaxiSOS.Services
     {
         public void SendEmailAsync(string email, string subject, string message)
         {
-            var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Такси TaxiSOS", "banshchikov.alex@yandex.ru"));
-            emailMessage.To.Add(new MailboxAddress("banshchikov.alex@yandex.ru", email));
-            emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
-            {
-                Text = message
-            };
-
-            using (var client = new SmtpClient())
-            {
-                 client.ConnectAsync("smtp.yandex.ru", 25, false);
-                 client.AuthenticateAsync("login@yandex.ru", "password");
-                 client.SendAsync(emailMessage);
-
-                 client.DisconnectAsync(true);
-            }
+            // отправитель - устанавливаем адрес и отображаемое в письме имя
+            MailAddress from = new MailAddress("Giruch233280@gmail.com", "TaxiSOS");
+            // кому отправляем
+            MailAddress to = new MailAddress("Giruch@inbox.ru");
+            // создаем объект сообщения
+            MailMessage m = new MailMessage(from, to);
+            // тема письма
+            m.Subject = subject;
+            // текст письма
+            m.Body = message;
+            // письмо представляет код html
+            m.IsBodyHtml = true;
+            // адрес smtp-сервера и порт, с которого будем отправлять письмо
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            // логин и пароль
+            smtp.Credentials = new NetworkCredential("Giruch233280@gmail.com", "122170fyz");
+            smtp.EnableSsl = true;
+            smtp.Send(m);
         }
     }
 }

@@ -83,6 +83,10 @@ namespace DesktopClient
                         timer2.Start();
 
                         GetPoints(arrivalPoint, destinationPoint);
+                        
+                        var response2 = client.GetAsync(APP_PATH + $"/api/Clients/SendMessageAssigned?id={idClient}&idDriver={tokenDictionary["id_Driver"]}").Result;
+                            // var result = response.Content.ReadAsStringAsync().Result;                   
+                        
                     }
                     else
                     {
@@ -148,11 +152,13 @@ namespace DesktopClient
         {
             if (idOrder != "")
             {
-                using (var client = new HttpClient())
-                {
-                    var response =
-                        client.GetAsync(APP_PATH + $"/api/Clients/SendMessageFinish?id={idClient}").Result;
-                   // var result = response.Content.ReadAsStringAsync().Result;                   
+                if (buttonOnPlace.Text == "На месте")
+                { 
+                    using (var client = new HttpClient())
+                    {
+                        var response =
+                            client.GetAsync(APP_PATH + $"/api/Clients/SendMessageFinish?id={idClient}").Result;                  
+                    }
                 }
 
             }
@@ -192,7 +198,23 @@ namespace DesktopClient
 
         private void checkBoxBusy_CheckedChanged(object sender, EventArgs e)
         {
-            //TODO Запрос на сервер с изменением статуса
+            if (idOrder == "")
+            {
+                if (checkBoxBusy.Checked)
+                {
+                    using (var client = new HttpClient())
+                    {
+                        var response = client.GetAsync(APP_PATH + $"/api/Orders/ChangeStatusDriver?newStatus=1&idDriver={tokenDictionary["id_Driver"]}").Result;
+                    }
+                }
+                else
+                {
+                    using (var client = new HttpClient())
+                    {
+                        var response = client.GetAsync(APP_PATH + $"/api/Orders/ChangeStatusDriver?newStatus=0&idDriver={tokenDictionary["id_Driver"]}").Result;
+                    }
+                }
+            }
         }
 
         private void buttonAccount_Click(object sender, EventArgs e)
