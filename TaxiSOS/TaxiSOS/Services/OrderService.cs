@@ -1,31 +1,24 @@
-﻿using System.Linq;
-using Newtonsoft.Json.Linq;
-using System.Net;
-using System.Globalization;
-using DataModel;
-using System;
+﻿using DataModel;
 using DataModel.Models;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Linq;
+using System.Net;
 
 namespace TaxiSOS.Services
 {
     public class OrderService
     {     
-        IRepository<Drivers> _repo;
-        CultureInfo cultureInfo = new CultureInfo("en-US");
-
+        IRepository<Drivers> _repo;    
         public int Calculate(string From, string To)
         {
             string _latFrom, _lonFrom, _latTo, _lonTo;
             Points(From, out _latFrom, out _lonFrom);            Points(To, out _latTo, out _lonTo);
 
-            string route = new WebClient().DownloadString("http://routes.maps.sputnik.ru/osrm/router/viaroute?loc="
-                + _latFrom + "," + _lonFrom + "&loc=" + _latTo + "," + _lonTo);
+            double x = Convert.ToDouble(Convert.ToDouble(_latFrom) - Convert.ToDouble(_latTo));
+            double y = Convert.ToDouble(Convert.ToDouble(_lonFrom) - Convert.ToDouble(_lonTo));
 
-            var root = JObject.Parse(route);            var distance =
-                    root.DescendantsAndSelf()
-                        .OfType<JProperty>()
-                        .Where(p => p.Name == "total_distance")
-                        .Select(p => p.Value).First().Value<int>();            int cost = (int)(distance * 0.01) + 40;
+            var distance = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));            int cost = (int)(distance * 0.01) + 40;
             return cost;
         }
 
@@ -38,14 +31,14 @@ namespace TaxiSOS.Services
                     .Where(p => p.Name == "lat")
                     .Select(p => p.Value).First()
                     .Value<float>()
-                    .ToString(cultureInfo);
+                    .ToString();
 
             lon = root.DescendantsAndSelf()
                     .OfType<JProperty>()
                     .Where(p => p.Name == "lon")
                     .Select(p => p.Value).First()
                     .Value<float>()
-                    .ToString(cultureInfo);
+                    .ToString();
         }
 
         public Guid FindDriver(IRepository<Drivers> repoDriver)
