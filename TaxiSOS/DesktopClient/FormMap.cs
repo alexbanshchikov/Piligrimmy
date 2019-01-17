@@ -19,8 +19,8 @@ namespace DesktopClient
         static string arrivalPoint;
         static string destinationPoint;
         static string idClient;
-        static double[] firstPoint = new double[2]; //56.48277 84.998985
-        static double[] lastPoint = new double[2];  //56.480278 85.000206
+        static double[] firstPoint;
+        static double[] lastPoint;
         private const string APP_PATH = "http://localhost:53389";
         private BackgroundWorker worker;
         private BackgroundWorker worker2;
@@ -99,21 +99,32 @@ namespace DesktopClient
             }
         }
 
-        private void GetPoints(string From, string To)      //TODO Уебски определяется улица
+        private void GetPoints(string From, string To)
         {
             using (var client = new HttpClient())
             {
-                var response = client.GetAsync(APP_PATH + $"/api/Orders/GetCoordinates?From={arrivalPoint}?&To={destinationPoint}").Result;
+                var response = client.GetAsync(APP_PATH + $"/api/Orders/GetCoordinates?From={arrivalPoint}&To={destinationPoint}").Result;
                 var result = response.Content.ReadAsStringAsync().Result;
 
-                List<double> pointsList =
-                    JsonConvert.DeserializeObject<List<double>>(result);
+                List<string> pointsList =
+                    JsonConvert.DeserializeObject<List<string>>(result);
 
-                firstPoint[0] = pointsList[0];
-                firstPoint[1] = pointsList[1];
+                foreach (string item in pointsList)
+                {
+                    item.Replace(',', '.');
+                }
 
-                lastPoint[0] = pointsList[2];
-                lastPoint[1] = pointsList[3];
+                firstPoint = new double[]
+                {
+                    Convert.ToDouble(pointsList[0]),
+                    Convert.ToDouble(pointsList[1])
+                };
+
+                lastPoint = new double[]
+                {
+                    Convert.ToDouble(pointsList[2]),
+                    Convert.ToDouble(pointsList[3])
+                };
             }
         }
 
@@ -187,7 +198,7 @@ namespace DesktopClient
 
             //Создание маршрута
             GMapRoute r = new GMapRoute(route.Points, "My route");
-            r.Stroke.Width = 1;
+            r.Stroke.Width = 2;
             r.Stroke.Color = Color.Red;
 
             //Добавление маршрута на карту
@@ -232,34 +243,6 @@ namespace DesktopClient
 
             //Установка положения на карте по названию объекта(объектов)
             gmap.SetPositionByKeywords("Tomsk");
-
-            //Установка положения на карте по координатам
-            //gmap.Position = new PointLatLng(-25.966688, 32.580528);
-
-            //МАРКЕР
-            //Создание и добавление маркера на карту
-            /*GMapOverlay markersOverlay = new GMapOverlay("markers");
-            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(-25.966688, 32.580528),
-              GMarkerGoogleType.green);
-            markersOverlay.Markers.Add(marker);
-            gmap.Overlays.Add(markersOverlay);*/
-
-            //МАРШРУТ
-            //Получение маршрута между двумя точками
-            /*PointLatLng start = new PointLatLng(56.4894541, 84.8685479); //56.4894541,84.8685479
-            PointLatLng end = new PointLatLng(54.969655, 82.6692233); //54.969655,82.6692233
-            MapRoute route = GMap.NET.MapProviders.OpenStreetMapProvider.Instance.GetRoute(
-              start, end, false, false, 13);
-
-            //Создание маршрута
-            GMapRoute r = new GMapRoute(route.Points, "My route");
-            r.Stroke.Width = 2;
-            r.Stroke.Color = Color.Red;
-
-            //Добавление маршрута на карту
-            GMapOverlay routesOverlay = new GMapOverlay("routes");
-            routesOverlay.Routes.Add(r);
-            gmap.Overlays.Add(routesOverlay);*/
         }
     }
 }

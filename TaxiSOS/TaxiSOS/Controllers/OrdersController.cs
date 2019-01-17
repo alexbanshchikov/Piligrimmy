@@ -78,9 +78,10 @@ namespace TaxiSOS.Controllers
         [HttpGet("calc")]
         public int Calculate(string From, string To)
         {
-            string From_ = From.Replace(' ', '%');
-            string To_ = To.Replace(' ', '%');
-            return os.Calculate(From_, To_);
+            string _From = string.Join("%20", From.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+            string _To =   string.Join("%20", To.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+
+            return os.Calculate(_From, _To);
         }
 
         [HttpGet("GetCoordinates")]
@@ -88,8 +89,8 @@ namespace TaxiSOS.Controllers
         {
             string[] coordinates = new string[4];
 
-            string From_ = From.Replace(' ', '%');
-            string To_ = To.Replace(' ', '%');
+            string From_ = string.Join("%20", From.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+            string To_ = string.Join("%20", To.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 
             os.Points(From_, out coordinates[0], out coordinates[1]);
             os.Points(To_, out coordinates[2], out coordinates[3]);
