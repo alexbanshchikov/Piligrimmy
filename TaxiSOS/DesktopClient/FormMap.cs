@@ -171,6 +171,17 @@ namespace DesktopClient
                         var response =
                             client.GetAsync(APP_PATH + $"/api/Clients/SendMessageFinish?id={idClient}").Result;                  
                     }
+                    buttonOnPlace.Text = "Завершить поездку";
+                }
+                else if (buttonOnPlace.Text == "Завершить поездку")
+                {
+                    using (var client = new HttpClient())
+                    {
+                        var x = idOrder;  
+                       // var response = client.GetAsync(APP_PATH + $"/api/Orders/ChangeStatus?newStatus=5&idDriver={idOrder}").Result;
+                        var response2 = client.GetAsync(APP_PATH + $"/api/Orders/ChangeStatusDriver?newStatus=0&idDriver={tokenDictionary["id_Driver"]}").Result;
+                    }
+                    buttonOnPlace.Text = "На месте";
                 }
 
             }
