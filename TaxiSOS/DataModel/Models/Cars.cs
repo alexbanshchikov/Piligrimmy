@@ -10,7 +10,6 @@ namespace DataModel.Models
         public string RegistrationNumber { get; set; }
         public string Mark { get; set; }
         public string Color { get; set; }
-        public string ServiceClass { get; set; }
 
         public virtual Drivers IdDriverNavigation { get; set; }
     }

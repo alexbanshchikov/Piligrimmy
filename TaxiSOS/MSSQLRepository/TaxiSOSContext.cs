@@ -22,8 +22,8 @@ namespace MSSQLRepository
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Server=LENOVO;Database=TaxiSOS;Trusted_Connection=True;");
-                optionsBuilder.UseSqlServer("Server=LAPTOP-VEV0U443;Database=TaxiSOS;Trusted_Connection=True;"); 
+                optionsBuilder.UseSqlServer("Server=LENOVO;Database=TaxiSOS;Trusted_Connection=True;");
+                //optionsBuilder.UseSqlServer("Server=LAPTOP-VEV0U443;Database=TaxiSOS;Trusted_Connection=True;"); 
             }
         }
 
@@ -116,12 +116,6 @@ namespace MSSQLRepository
                 entity.Property(e => e.RegistrationNumber)
                     .IsRequired()
                     .HasColumnName("Registration_Number")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ServiceClass)
-                    .IsRequired()
-                    .HasColumnName("Service_Class")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
