@@ -18,7 +18,7 @@ namespace TaxiSOS.Services
             double x = Convert.ToDouble(Convert.ToDouble(_latFrom) - Convert.ToDouble(_latTo));
             double y = Convert.ToDouble(Convert.ToDouble(_lonFrom) - Convert.ToDouble(_lonTo));
 
-            var distance = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));            int cost = (int)(distance * 0.01) + 40;
+            var distance = Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));            int cost = (int)(distance * 1500) + 40;
             return cost;
         }
 
