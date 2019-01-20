@@ -84,10 +84,9 @@ namespace DesktopClient
 
                         GetPoints(arrivalPoint, destinationPoint);
                         
-                        var response2 = client.GetAsync(APP_PATH + $"/api/Clients/SendMessageAssigned?id={idClient}&idDriver={tokenDictionary["id_Driver"]}").Result;
-                            // var result = response.Content.ReadAsStringAsync().Result;                   
-                        
+                        var response2 = client.GetAsync(APP_PATH + $"/api/Clients/SendMessageAssigned?id={idClient}&idDriver={tokenDictionary["id_Driver"]}").Result;                                      
                     }
+
                     else
                     {
                         client.GetAsync(APP_PATH + $"/api/Orders/DriverIgnore?idOrder={idOrder}");
@@ -158,8 +157,7 @@ namespace DesktopClient
                 }
             }
         }
-        //HUINYA
-        //TODO Изменять тексст в кнопке после нажатия, в зависимости от текста, выполнять разные штуки
+
         private void buttonOnPlace_Click(object sender, EventArgs e)
         {
             if (idOrder != "")
@@ -178,7 +176,6 @@ namespace DesktopClient
                     using (var client = new HttpClient())
                     {
                         var x = idOrder;  
-                       // var response = client.GetAsync(APP_PATH + $"/api/Orders/ChangeStatus?newStatus=5&idDriver={idOrder}").Result;
                         var response2 = client.GetAsync(APP_PATH + $"/api/Orders/ChangeStatusDriver?newStatus=0&idDriver={tokenDictionary["id_Driver"]}").Result;
                     }
                     buttonOnPlace.Text = "На месте";
