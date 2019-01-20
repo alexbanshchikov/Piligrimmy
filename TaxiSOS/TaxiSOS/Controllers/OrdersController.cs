@@ -181,8 +181,7 @@ namespace TaxiSOS.Controllers
                 var order = _repoOrder.Get().Where(dr => dr.IdDriver == idDriver && dr.Status == (int)Status.DriverWithoutAgree).First();
                 order.Status = 6;
                 _repoOrder.Update(order);
-                return order;
-                
+                return order;                
             }
             catch
             {
