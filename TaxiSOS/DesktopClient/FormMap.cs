@@ -152,6 +152,7 @@ namespace DesktopClient
                     firstPoint[1] = 0;
                     lastPoint[0] = 0;
                     lastPoint[1] = 0;
+                    gmap.Overlays.Clear();
                     timer2.Stop();
                     timer.Start();
                 }
